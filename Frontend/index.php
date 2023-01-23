@@ -4,8 +4,9 @@ require_once '../Comm/function.php';
 require_once 'load_resources.php';
 preLoad(0);
 $link = link_SQL();
-const DISPLAY_NUM = 8; // 首页显示的新闻数量
-const DETAIL_SIZE = 100; // 简介字数
+const DISPLAY_NUM = 8;      // 首页显示的新闻数量
+const DETAIL_SIZE = 100;    // 简介字数
+const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -50,18 +51,13 @@ const DETAIL_SIZE = 100; // 简介字数
                     <div id="picshow">
                         <div id="picshow_img">
                             <ul>
-                                <li style="display: list-item;"><a href="/life/361.html" target="_blank">
-                                        <img src="./images/1-140206162449A0.jpg" alt="骑行40000公里 英国胶片摄影师的骑游之旅"></a></li>
-                                <li style="display: list-item;"><a href="/life/394.html" target="_blank">
-                                        <img src="./images/354.jpg" alt="骑看世界：春节骑行海南岛 畅游冬日骑行天堂"></a></li>
-                                <li style="display: list-item;"><a href="/life/364.html" target="_blank">
-                                        <img src="./images/1-1402061A315209.jpg" alt="隆猫西班牙自行车之旅-Mallorca岛梦幻旅程（上）"></a>
-                                </li>
-                                <li style="display: list-item;"><a href="/gear/rs/320.html" target="_blank">
-                                        <img src="./images/1-1402061A155W4.jpg" alt="#CES展上的新玩意# Casio 发布 STB-1000 智能手表 可同步骑行速"></a></li>
-
-
-
+                                <?php
+                                $query = "SELECT * FROM `news_data` WHERE `recommend`=1 ORDER BY `publish_time` DESC";
+                                foreach (array_slice(query_SQL($link, $query), 0, 4) as $recNews):
+                                ?>
+                                <li style="display: list-item;"><a href="<?= LOC.'article.php?id='.$recNews['id'] ?>" target="_blank">
+                                    <img src="<?= getNewsImg(LOC, $recNews['id']) ?>" alt="<?= cutStr($recNews['title'], 10) ?>"> </a> </li>
+                                <?php endforeach; ?>
                             </ul>
                         </div>
                     </div>
@@ -74,12 +70,12 @@ const DETAIL_SIZE = 100; // 简介字数
                         </ul>
                     </div>
                     <div class="focus-bg-title">
-                        <div id="focus-left" class="arrow-left" onmouseover="IFocuse(this,true)" onmouseout="IFocuse(this,false)"></div>
+                        <!-- <div id="focus-left" class="arrow-left" onmouseover="IFocuse(this,true)" onmouseout="IFocuse(this,false)"></div> -->
                         <div id="focus-center" class="focus-title">
                             <div style="float:left;width:580px;padding-left:10px;font-size:18px;" id="focus-tl-s"></div>
                             <div style="float:right;width:200px;"></div>
                         </div>
-                        <div id="focus-right" class="arrow-right"></div>
+                        <!-- <div id="focus-right" class="arrow-right" onmouseover="IFocuse(this,true)" onmouseout="IFocuse(this,false)"></div> -->
                     </div>
                 </div>
                 <div id="picshow_right" style="background-color: #123;">
@@ -145,63 +141,52 @@ const DETAIL_SIZE = 100; // 简介字数
                         </span>
                     </div>
                     <?php endforeach; ?>
-
-
                 </div>
                 <div id="pagination">
-                    <div class='wp-pagenavi'> <a href="/lookbike/" style='float:right;'><img src='/blog4./style/images/next01.png' id='next-page'></a></div>
+                    <div class='wp-pagenavi'>
+                        <a href="list.php" style='float:right;'>查看更多新闻</a>
+                    </div>
                 </div>
             </div>
             <div id="xh_sidebar">
 
-                <div class="widget">
-
-                    <div style="background: url('./style/img/hots_bg.png') no-repeat scroll 0 0 transparent;width:250px;height:52px;margin-bottom:15px;">
-                    </div>
+            <div class="widget">
+                    <div class="rightWidgetTitle">供需信息</div>
                     <ul id="ulHot">
-
-                        <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
-                            <div style="float:left;width:85px;height:55px; overflow:hidden;"><a href="/lookbike/roadbicycle/110.html" target="_blank"><img src="./images/68.png" width="83" title="环西冠军克里斯霍纳的个性化定制座驾 Trek Madone公路车" /></a></div>
-                            <div style="float:right;width:145px;height:52px; overflow:hidden;"><a href="/lookbike/roadbicycle/110.html" target="_blank" title="环西冠军克里斯霍纳的个性化定制座驾 Trek Madone公路车">环西冠军克里斯霍纳的个性化定制座驾 Trek Ma</a></div>
-                        </li>
-                        <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
-                            <div style="float:left;width:85px;height:55px; overflow:hidden;"><a href="/lookbike/small/184.html" target="_blank"><img src="./images/146.jpg" width="83" title="英式折叠车Brompton Junction 上海旗舰店" /></a></div>
-                            <div style="float:right;width:145px;height:52px; overflow:hidden;"><a href="/lookbike/small/184.html" target="_blank" title="英式折叠车Brompton Junction 上海旗舰店">英式折叠车Brompton Junction 上海旗舰店</a></div>
-                        </li>
-                        <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
-                            <div style="float:left;width:85px;height:55px; overflow:hidden;"><a href="/life/368.html" target="_blank"><img src="./images/327.jpg" width="83" title="骑摆记：比利时车手Joris的尼泊尔野马河谷山地车之旅" /></a></div>
-                            <div style="float:right;width:145px;height:52px; overflow:hidden;"><a href="/life/368.html" target="_blank" title="骑摆记：比利时车手Joris的尼泊尔野马河谷山地车之旅">骑摆记：比利时车手Joris的尼泊尔野马河谷山</a>
-                            </div>
-                        </li>
-                        <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
-                            <div style="float:left;width:85px;height:55px; overflow:hidden;"><a href="/life/378.html" target="_blank"><img src="./images/335.jpg" width="83" title="深圳设计师浩子和77的11天成都-稻城自虐骑行" /></a></div>
-                            <div style="float:right;width:145px;height:52px; overflow:hidden;"><a href="/life/378.html" target="_blank" title="深圳设计师浩子和77的11天成都-稻城自虐骑行">深圳设计师浩子和77的11天成都-稻城自虐骑行</a></div>
-                        </li>
-                        <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
-                            <div style="float:left;width:85px;height:55px; overflow:hidden;"><a href="/news/398.html" target="_blank"><img src="./images/359.jpg" width="83" title="爱车出行新概念 YAKIMA与WHISPBAR将在中国自行车展同台亮相" /></a></div>
-                            <div style="float:right;width:145px;height:52px; overflow:hidden;"><a href="/news/398.html" target="_blank" title="爱车出行新概念 YAKIMA与WHISPBAR将在中国自行车展同台亮相">爱车出行新概念
-                                    YAKIMA与WHISPBAR将在中国自</a></div>
-                        </li>
-
+                        <?php
+                        $rs_new = getRet_SQL(mysqli_query($link, 'SELECT * FROM `sup_and_dem` ORDER BY `publish_time` DESC'));
+                        if (count($rs_new) > SIDEBAR_SIZE)
+                            $newArticle = array_slice($rs_new, 0, SIDEBAR_SIZE);
+                        else
+                            $newArticle = $rs_new;
+                        foreach ($newArticle as $v) :
+                        ?>
+                            <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
+                                <div style="float:left;width:85px;height:55px; overflow:hidden;">
+                                    <a href="detail.php?id=<?= $v['id'] ?>" target="_blank">
+                                        <img src="<?= getInfoImg($link, LOC, $v['id']) ?>" width="83" title="<?= $v['name'] ?>" />
+                                    </a>
+                                </div>
+                                <div style="float:right;width:145px;height:52px; overflow:hidden;">
+                                    <a href="detail.php?id=<?= $v['id'] ?>" target="_blank" title="<?= $v['name'] ?>">
+                                        <?= !$v['type'] ? "<span class='sup'>供应</span>" : "<span class='dem'>需求</span>" ?>
+                                        <?= cutStr($v['name'], 20) ?>
+                                    </a>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
 
-                <div class="widget portrait">
-                    <div>
-                        <div class="textwidget">
-                            <a href="/tougao.html"><img src="./style/img/tg.jpg" alt="投稿"></a><br><br>
-                        </div>
-                    </div>
-                </div>
                 <div class="widget links">
-                    <h3>
-                        友情链接</h3>
+                    <!-- <h3>
+                        友情链接</h3> -->
+                    <div class="rightWidgetTitle">相关网站</div>
                     <ul>
-                        <li><a href='#' target='_blank'>链接1</a> </li>
-                        <li><a href='#' target='_blank'>链接2</a> </li>
-                        <li><a href='#' target='_blank'>链接3</a> </li>
-                        <li><a href='#' target='_blank'>链接4</a> </li>
-                        <li><a href='#' target='_blank'>链接5</a> </li>
+                        <li><a href='http://www.guojixumu.com/' target='_blank'>国际畜牧网</a> </li>
+                        <li><a href='https://www.caaa.cn/' target='_blank'>中国畜牧业协会</a> </li>
+                        <li><a href='https://www.jbzyw.com/' target='_blank'>鸡病专业网</a> </li>
+                        <li><a href='http://www.cvma.org.cn/' target='_blank'>中国兽医协会</a> </li>
                     </ul>
                     <div class="clear">
                     </div>

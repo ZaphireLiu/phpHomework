@@ -12,23 +12,19 @@ if (!isset($_GET['listID']))
 {
     $qStr = "";
     $url = "list.php?";
+    $type = "";
 }
 else
 {
     $qStr = "WHERE `type`={$_GET['listID']}";
     $url = "list.php?listID=".$_GET['listID'];
+    switch (@$_GET['listID']) {
+        case 0: $type = "供应信息"; break;
+        case 1: $type = "需求信息"; break;
+        default: $type = ""; break;
+    }
 }
-switch (@$_GET['listID']) {
-    case 0:
-        $type = "供应信息";
-        break;
-    case 1:
-        $type = "需求信息";
-        break;
-    default:
-        $type = "供需信息";
-        break;
-}
+
 $link = link_SQL();
 $query = "SELECT * FROM `sup_and_dem` {$qStr} ORDER BY `publish_time` DESC";
 $rs = getRet_SQL(mysqli_query($link, $query));

@@ -125,7 +125,7 @@ function siteMap()
             '猪业' => LOC . 'list.php?listID=2',
             '饲料' => LOC . 'list.php?listID=3'
         ),
-        '供应需求信息' => array(
+        '供需信息' => array(
             'self'          => LOC . 'supdem/list.php',
             '查看供应信息'  => LOC . 'supdem/list.php?listID=0',
             '查看需求信息'  => LOC . 'supdem/list.php?listID=1',
