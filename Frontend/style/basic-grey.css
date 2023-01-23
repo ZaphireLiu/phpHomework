@@ -1,0 +1,104 @@
+/* Basic Grey 基本灰色 */
+.basic-grey {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    min-height: 550px;
+    background: #fff;
+    padding: 25px 15px 25px 10px;
+    font: 14px 'Open Sans', 'Segoe UI'!important;
+    color: #555;
+    /* text-shadow: 1px 1px 1px #FFF; */
+    border: 1px solid #E4E4E4;
+}
+
+.basic-grey h1 {
+    font-size: 25px;
+    padding: 0px 0px 10px 40px;
+    display: block;
+    border-bottom: 1px solid #E4E4E4;
+    margin: -10px -15px 30px -10px;
+    color: #555;
+}
+
+.basic-grey .red {
+    color: rgb(216, 1, 1) !important;
+}
+
+.basic-grey h1>span {
+    display: block;
+    font-size: 13px;
+}
+
+.basic-grey label {
+    display: block;
+    margin: 0px;
+}
+
+.basic-grey label>span {
+    float: left;
+    width: 20%;
+    text-align: right;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+
+.basic-grey input[type="text"],
+.basic-grey input[type="file"],
+.basic-grey textarea,
+.basic-grey select {
+    /* float: right; */
+    border: 1px solid #DADADA;
+    color: #888;
+    height: 30px;
+    margin-bottom: 16px;
+    margin-right: 6px;
+    margin-top: 2px;
+    outline: 0 none;
+    padding: 3px 3px 3px 5px;
+    width: 60% !important;
+    /* font-size: 12px; */
+    /* line-height: 15px; */
+    /* box-shadow: inset 0px 1px 4px #ECECEC; */
+    /* -moz-box-shadow: inset 0px 1px 4px #ECECEC; */
+    /* -webkit-box-shadow: inset 0px 1px 4px #ECECEC; */
+}
+
+.basic-grey textarea {
+    height: 120px;
+    /* vertical-align: top; */
+    resize:none !important;
+    padding: 5px 3px 3px 5px;
+    font-family: 'Open Sans', 'Segoe UI' !important;
+}
+
+.basic-grey select {
+    background: #FFF url('down-arrow.png') no-repeat right;
+    background: #FFF url('down-arrow.png') no-repeat right;
+    /* appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none; */
+    text-indent: 0.01px;
+    text-overflow: '';
+    /* width: 75%; */
+    height: 35px;
+    line-height: 25px;
+}
+
+.basic-grey .button {
+    background: #23a9f2;
+    border: none;
+    padding: 8px 20px 8px 20px;
+    color: #FFF;
+    /* box-shadow: 1px 1px 5px #B6B6B6; */
+    border-radius: 3px;
+    text-shadow: 1px 1px 1px #00507a;
+    cursor: pointer;
+    font-size: 16px !important;
+    font-weight: bold;
+}
+
+.basic-grey .button:hover {
+    background: #0087d0;
+}
+
