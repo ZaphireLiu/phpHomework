@@ -4,8 +4,8 @@ require_once '../Comm/function.php';
 require_once 'load_resources.php';
 preLoad(0);
 $link = link_SQL();
-const DISPLAY_NUM = 8;      // 首页显示的新闻数量
-const DETAIL_SIZE = 100;    // 简介字数
+const DISPLAY_NUM  = 8;     // 首页显示的新闻数量
+const DETAIL_SIZE  = 100;   // 简介字数
 const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -111,10 +111,10 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
                         if (!$news['type']) continue;
                         switch ($news['type']) 
                         {
-                            case '1': $category = '禽业新闻'; break;
-                            case '2': $category = '猪业新闻'; break;
-                            case '3': $category = '饲料新闻'; break;
-                            default: $category = '新闻'; break;
+                            case '1' : $category = '禽业新闻'; break;
+                            case '2' : $category = '猪业新闻'; break;
+                            case '3' : $category = '饲料新闻'; break;
+                            default  : $category = '新闻'; break;
                         }
                     ?>
                     <!-- <?= $news['id'] ?> -->
