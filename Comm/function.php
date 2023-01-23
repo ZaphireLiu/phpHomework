@@ -48,6 +48,7 @@ function query_SQL($link, $query)
         $rs = array();
         while ($rs[] = mysqli_fetch_array($result, MYSQLI_ASSOC));
         array_pop($rs);
+        return $rs;
     }
     else return false;
 }
@@ -228,16 +229,16 @@ function saveResizedImg($formName, $imgName, $dstPath, $width = 200, $height = -
 /**
  * 截取并返回字符串
  * @param string $str 要截取的字符串
- * @param int $target 目标长度
+ * @param int $len 目标长度
  * @param string $suffix (可选,默认仨省略号) 后缀
  * @return str 处理后的字符串 
  */
-function cutStr($str, $target, $suffix = '···')
+function cutStr($str, $len, $suffix = '···')
 {
-    if (mb_strlen($str, 'UTF-8') <= $target)
+    if (mb_strlen($str, 'UTF-8') <= $len)
         return $str;
     else
-        return mb_substr($str, 0, $target, 'UTF-8').$suffix;
+        return mb_substr($str, 0, $len, 'UTF-8').$suffix;
 }
 /**
  * 从文件中读取数据

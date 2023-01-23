@@ -97,6 +97,8 @@ else
                     <?= @$msg ?></span>
                 </h1>
 
+                <?php if(isLoggedIn()): ?>
+
                 <label id="typeSel">
                     <span>类型：</span>
                     <select id="typeSel" name="type">
@@ -133,6 +135,8 @@ else
                 </label>
                 <input id="submitBtn" type="submit" class="button" name="btn" value="发  布" />
                 
+                <?php endif; ?>
+
             </form>
             <div class="clear"></div>
         </div>

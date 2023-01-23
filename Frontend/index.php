@@ -4,6 +4,8 @@ require_once '../Comm/function.php';
 require_once 'load_resources.php';
 preLoad(0);
 $link = link_SQL();
+const DISPLAY_NUM = 8; // 首页显示的新闻数量
+const DETAIL_SIZE = 100; // 简介字数
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -109,29 +111,40 @@ $link = link_SQL();
                     <?php
                     $query = "SELECT * FROM `news_data` ORDER BY `publish_time` DESC";
                     $rs = query_SQL($link, $query);
-                    
+                    foreach (array_slice($rs, 0, DISPLAY_NUM) as $news):
+                        if (!$news['type']) continue;
+                        switch ($news['type']) 
+                        {
+                            case '1': $category = '禽业新闻'; break;
+                            case '2': $category = '猪业新闻'; break;
+                            case '3': $category = '饲料新闻'; break;
+                            default: $category = '新闻'; break;
+                        }
                     ?>
+                    <!-- <?= $news['id'] ?> -->
                     <div class="xh_post_h_3 ofh">
                         <div class="xh_265x265">
-                            <a target="_blank" href="/life/392.html" title="骑看世界：三个女孩的欧洲骑行之路">
-                                <img src="./images/352.jpg" alt="骑看世界：三个女孩的欧洲骑行之路" height="240" width="400"></a>
+                            <a target="_blank" href="article.php?id=<?= $news['id'] ?>" title="<?= $news['title'] ?>">
+                                <img src="<?= getNewsImg(LOC, $news['id']) ?>" alt="<?= $news['title'] ?>" height="240" width="400"></a>
                         </div>
                         <div class="r ofh">
                             <h2 class="xh_post_h_3_title ofh">
-                                <a target="_blank" href="/life/392.html" title="骑看世界：三个女孩的欧洲骑行之路">骑看世界：三个女孩的欧洲骑行之路</a>
+                                <a target="_blank" href="article.php?id=<?= $news['id'] ?>" title="<?= $news['title'] ?>"><?= cutStr($news['title'], 24) ?></a>
                             </h2>
-                            <span class="time">2014年02月06日 17:26</span>
+                            <span class="time"><?= $news['publish_time'] ?></span>
                             <div class="xh_post_h_3_entry ofh">
-                                经历了欧洲漫长的冬季，卡佳，凯茜和米歇尔三个女孩决定开始他们本年度第一次roadtrip，于是他们脱离了自己正常的生活模式，开始进入自行车模式开始他们的骑行之旅。她们的第一站是列支敦士登的Ell...
+                                <?= mb_readFile(LOC.'../Data/news/'.$news['id'].'.txt', DETAIL_SIZE) ?>
                             </div>
                             <div class="b">
-                                <span title="2人赞" class="xh_love"><span class="textcontainer"><span>2</span></span>
-                                    <span class="bartext"></span></span> <span title="119人浏览" class="xh_views">119</span>
+                                <span class="bartext"></span></span> <span title="<?= $news['view_time'] ?>人浏览" class="xh_views"><?= $news['view_time'] ?></span>
                             </div>
                         </div>
-                        <span class="cat"><a href="/life/" title="查看 单车生活 中的全部文章" rel="category tag">单车生活</a></span>
+                        <span class="cat">
+                            <a href="list.php?listID=<?= $news['type'] ?>" title="查看<?= $category ?>中的全部文章" rel="category tag">
+                                <?= $category ?> </a>
+                        </span>
                     </div>
-                    
+                    <?php endforeach; ?>
 
 
                 </div>

@@ -16,7 +16,7 @@ if (!isset($_GET['listID']))
 else
 {
     $qStr = "WHERE `type`={$_GET['listID']}";
-    $url = "list.php?id=".$_GET['listID'];
+    $url = "list.php?listID=".$_GET['listID'];
 }
 switch (@$_GET['listID']) {
     case 1:
