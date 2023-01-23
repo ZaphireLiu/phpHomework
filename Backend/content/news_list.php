@@ -13,7 +13,7 @@ $newsList = getRet_SQL(mysqli_query($link, $query));
     <meta charset="utf-8">
     <title>新闻列表</title>
     <?php load_cssFile()
-    // 加载css文件 
+    // 加载css文件
     ?>
     <style>
         .noClickBtn {
@@ -33,14 +33,14 @@ $newsList = getRet_SQL(mysqli_query($link, $query));
             }
         }
     </script>
-    <?php load_navBar(); 
+    <?php load_navBar();
     // 导航栏
     ?>
 
     <div class="main-container container-fluid">
         <div class="page-container">
             <?php load_sideBar()
-            // 侧边栏 
+            // 侧边栏
             ?>
             <!-- Page Content -->
             <div class="page-content">
@@ -62,7 +62,7 @@ $newsList = getRet_SQL(mysqli_query($link, $query));
                     <button type="button" tooltip="用户投稿" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = 'add.php'">
                         <i class="fa fa-pencil"></i> 用户投稿
                     </button>
-                    
+
                     <button type="button" tooltip="按时间排序" class="btn btn-sm btn-azure btn-addon" onClick="javascript:window.location.href = 'add.php'">
                         <i class="fa fa-list"></i> 按时间排序
                     </button>
@@ -104,20 +104,20 @@ $newsList = getRet_SQL(mysqli_query($link, $query));
                                                     <td align="center"><?= $news['publish_time'] ?></td>
                                                     <td align="center"><?= $newsType ?></td>
                                                     <td align="center">
-                                                        <button type="button" tooltip="转到新闻页面" class="btn btn-sm btn-azure btn-addon" 
+                                                        <button type="button" tooltip="转到新闻页面" class="btn btn-sm btn-azure btn-addon"
                                                         onClick="javascript:window.location.href = '<?= $newsUrl ?>'">
                                                             <i class="fa fa-info"></i>转到新闻页面
                                                         </button>
-                                                        <button type="button" tooltip="编辑" class="btn btn-sm btn-azure btn-addon" 
+                                                        <button type="button" tooltip="编辑" class="btn btn-sm btn-azure btn-addon"
                                                         onClick="javascript:window.location.href = 'edit_news.php?id=<?= $news['id'] ?>'">
                                                             <i class="fa fa-wrench"></i>编辑
                                                         </button>
-                                                        <button type="button" tooltip="推荐" class="btn btn-sm btn-azure btn-addon" 
+                                                        <button type="button" tooltip="推荐" class="btn btn-sm btn-azure btn-addon"
                                                         onClick="javascript:window.location.href = 'rec_news.php?id=<?= $news['id'] ?>'">
                                                             <i class="fa <?= $news['recommend']?'fa-minus':'fa-plus' ?>"></i>
                                                             <?= $news['recommend']?'取消推荐':'推荐新闻' ?>
-                                                        </button>                                                  
-                                                        <button type="button" tooltip="删除" class="btn btn-sm btn-azure btn-addon" 
+                                                        </button>
+                                                        <button type="button" tooltip="删除" class="btn btn-sm btn-azure btn-addon"
                                                         onClick="javascript:confirmDelNews(<?= $news['id'] ?>, '<?= $news['title'] ?>')">
                                                             <i class="fa fa-trash-o"></i>删除
                                                         </button>
@@ -141,7 +141,7 @@ $newsList = getRet_SQL(mysqli_query($link, $query));
 
     <?php
     mysqli_close($link);
-    // 实现一些效果的js脚本文件 
+    // 实现一些效果的js脚本文件
     load_jsFile();
     ?>
 
