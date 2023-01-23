@@ -1,8 +1,6 @@
 # README
 
-记录每个文件的用途、数据库、Session/Cookie等数据
-
-
+> 前台网站
 
 ## 数据库
 
@@ -16,3 +14,5 @@
 | title        | varchar(64) | utf8mb4_general_ci | 否   |                                 | 标题            |
 | publish_time | timestamp   |                    | 否   | on update = current_timestamp() | 发布时间        |
 | info         | varchar(64) | utf8mb4_general_ci | 是   |                                 | 小标题/发布信息 |
+
+## 文件夹结构

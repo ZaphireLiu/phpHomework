@@ -108,7 +108,8 @@ $link = link_SQL();
 
                     <?php
                     $query = "SELECT * FROM `news_data` ORDER BY `publish_time` DESC";
-                    $rs = getRet_SQL_Array(mysqli_query($link, $query));
+                    $rs = query_SQL($link, $query);
+                    
                     ?>
                     <div class="xh_post_h_3 ofh">
                         <div class="xh_265x265">
