@@ -2,12 +2,13 @@
 <?php
 // 注意手动修改这里的地址和perLoad的层数
 // 其他地方的位置、地址等均可动态加载
+require_once '../../Comm/function.php';
 require_once '../load_resources.php';
-preLoad(1); //初始化&登录检查
+preLoad(1, false); //初始化&登录检查
 if (!isset($_GET['to']))
 {
     $from = 'pwd_edit.php';
-    $to = '../index.php';
+    $to = 'login.php';
 }
 else
 {
@@ -15,22 +16,36 @@ else
     $to = $_GET['to'];
 }
 if (!isset($_POST['id']))
-    jumpToURL($from);
+    echo 'id not set';
+    // jumpToURL($from);
 $link = link_SQL();
 $query = "SELECT * FROM `admin_account` WHERE `id`={$_POST['id']}";
 $rs = getRet_SQL(mysqli_query($link, $query));
-if (md5(NAME_ADM.'salt'.$_POST["pwd_ori"]) != $rs['pwd_md5'] && !$rs['pwd_rst'])
-    // 原密码错误
-    jumpToURL($from, array('retVal' => 0));
+if (!$rs)
+{
+    popWarn('SQL错误！没有查找到账号');
+    jumpToURL('login.php');
+}
+if (defined('NAME_ADM'))
+    $name = NAME_ADM;
+elseif (isset($_SESSION['idAdm']))
+    $name = $rs['name'];
+
+if ((md5($name.'salt'.$_POST["pwd_ori"]) != $rs['pwd_md5']) && !$rs['pwd_rst'])
+    // 原密码错误，也不是初始化密码
+    echo 'wrone origin pwd';
+    // jumpToURL($from, array('retVal' => 0));
 elseif ($_POST["pwd"] != $_POST["pwd_valid"])
     // 输入不一致
-    jumpToURL($from, array('retVal' => 1));
+    echo 'diffent input';
+    // jumpToURL($from, array('retVal' => 1));
 
-$md5Val = md5(NAME_ADM.'salt'.$_POST["pwd"]);
+$md5Val = md5($name.'salt'.$_POST["pwd"]);
 $query = "UPDATE `admin_account` SET `pwd_md5`='{$md5Val}', `pwd_rst`=0 WHERE `id`='{$_POST['id']}'";
 $rs = mysqli_query($link, $query);
 mysqli_close($link);
 // jumpToURL($to);
+die();
 ?>
 <html>
 

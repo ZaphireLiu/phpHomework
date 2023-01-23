@@ -36,7 +36,7 @@ if (isset($_GET["retVal"]))
     $msg = $msgArr[$_GET["retVal"]];
 else
     $msg = '';
-$bcArray = isset($_GET["id"]) ? 
+$bcArray = isset($_GET["id"]) ?
 array(
     '管理面板' => LOC.'index.php',
     '管理员' => '',
@@ -55,7 +55,7 @@ array(
     <meta charset="utf-8">
     <title><?=isset($_GET["self"])?'编辑个人资料':'编辑管理员账号'?></title>
     <?php load_cssFile()
-    // 加载css文件 
+    // 加载css文件
     ?>
     <style>
         .form-data {
@@ -68,23 +68,23 @@ array(
             text-align: center;
             line-height: 200%;
             font-size: 17px;
-        }    
+        }
     </style>
 </head>
 
 <body>
 
     <?php load_navBar();
-    // 导航栏 
+    // 导航栏
     ?>
 
     <div class="main-container container-fluid">
         <div class="page-container">
             <?php load_sideBar()
-            // 侧边栏 
+            // 侧边栏
             ?>
             <div class="page-content">
-                <?php load_breadcrumb($bcArray) // 目录 
+                <?php load_breadcrumb($bcArray) // 目录
                 ?>
                 <!-- Page Body: 页面的主体 -->
                 <div class="page-body">
@@ -98,7 +98,7 @@ array(
                                 <div class="widget-body">
                                     <div class="errMsg red"><?= $msg ?></div>
                                     <div id="horizontal-form">
-                                        <form class="form-horizontal" role="form" action="edit_proc.php?title=<?=isset($_GET["self"])?'编辑个人资料':'编辑账号'?>" method="post" enctype="multipart/form-data">
+                                        <form class="form-horizontal" role="form" action="edit_proc.php?self=<?=isset($_GET["self"])? 1 : 0 ?>" method="post" enctype="multipart/form-data">
                                             <input type="text" name="id" value="<?= $qID ?>" style="display: none">
                                             <div class="form-group">
                                                 <label for="userid" class="col-sm-2 control-label no-padding-right">用户ID</label>
@@ -168,7 +168,7 @@ array(
                                             <div class="form-group">
                                                 <div class="col-sm-offset-2 col-sm-10">
                                                     <button type="submit" class="btn btn-default" name='submit'>保存</button>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
@@ -184,7 +184,7 @@ array(
     </div>
 
     <?php load_jsFile()
-    // 实现一些效果的js脚本文件 
+    // 实现一些效果的js脚本文件
     ?>
 
 </body>

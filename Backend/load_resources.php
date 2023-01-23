@@ -22,25 +22,28 @@ function getAvatar($relLoc, $imgName)
  * @param int $locLayer 网页文件在网站文件夹内的相对位置
  * - 根目录为0，每层子目录+1
  */
-function preLoad($locLayer)
+function preLoad($locLayer, $checkLogStat = true)
 {
     @session_start();
     define('LOC', str_repeat('../', $locLayer));
     require_once LOC . '../Comm/function.php';
     // 检查是否登录，未登录则直接引导至登录界面
-    if (!isset($_SESSION['loginStatAdm']) || @$_SESSION['loginStatAdm'] < 1)
+    if ($checkLogStat)
+    {
+        if (!isset($_SESSION['loginStatAdm']) || @$_SESSION['loginStatAdm'] < 1)
         header('Location:' . LOC . 'admin/login.php');
-    else {   // 初始化用户信息
-        $validList = array('idAdm', 'loginStatAdm', 'nameAdm', 'perAdm');
-        foreach ($validList as $v) {
-            if (!isset($_SESSION[$v])) {
-                header('Location:' . LOC . 'admin/login.php');
-                die(); // 初始化出错，跳转至登录页面并终止运行
+        else {   // 初始化用户信息
+            $validList = array('idAdm', 'loginStatAdm', 'nameAdm', 'perAdm');
+            foreach ($validList as $v) {
+                if (!isset($_SESSION[$v])) {
+                    header('Location:' . LOC . 'admin/login.php');
+                    die(); // 初始化出错，跳转至登录页面并终止运行
+                }
             }
+            define('ID_ADM',    $_SESSION['idAdm']);
+            define('NAME_ADM',  $_SESSION['nameAdm']);
+            define('PER_ADM',   $_SESSION['perAdm'] ? true : false);
         }
-        define('ID_ADM',    $_SESSION['idAdm']);
-        define('NAME_ADM',  $_SESSION['nameAdm']);
-        define('PER_ADM',   $_SESSION['perAdm'] ? true : false);
     }
 }
 

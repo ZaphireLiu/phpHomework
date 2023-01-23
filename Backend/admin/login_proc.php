@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 
+<!--
     To do:
     - 重置密码处理（目前为了测试暂时先直接放进去）
 -->
@@ -31,15 +31,17 @@
              * @param string    $tip 提示的返回信息
              * @return never
              */
-            function ret2login($retCode, $tip = '返回登录页面')
+            function ret2login($retCode, $tip = '返回登录页面', $name = '')
             {
                 $_SESSION['loginStatAdm'] = $retCode;
+                if ($name)
+                    $_SESSION['loginInput_name'] = $name;
                 die(<<<str
                     <div class="loginbox-title">
                         {$tip}
                     </div>
                     <script>
-                        setTimeout("javascript:location.href='login.php'", 2000); 
+                        setTimeout("javascript:location.href='login.php'", 2000);
                     </script>
                 str);
             }
@@ -57,7 +59,7 @@
             if (strlen($name) == 0)
                 ret2login(-1, '输入错误，返回登录页面');
             $query = <<<str
-                SELECT * FROM `admin_account` WHERE 
+                SELECT * FROM `admin_account` WHERE
                     `name`  = '{$name}'
                 or  `phone` = '{$name}'
                 or  `email` = '{$name}'
@@ -79,7 +81,7 @@
                             欢迎您，{$admAcc['name']}！<br/>正在跳转到管理主页
                         </div><br/>
                         <script>
-                            setTimeout("javascript:location.href='../index.php'", 2000); 
+                            setTimeout("javascript:location.href='../index.php'", 2000);
                         </script>
                     str;
                 }
@@ -96,11 +98,11 @@
                             密码未设置！跳转到设置页面
                         </div><br/>
                         <script>
-                            setTimeout("javascript:location.href='pwd_set.php'", 2000); 
+                            setTimeout("javascript:location.href='pwd_set.php'", 2000);
                         </script>
                     str;
                 }
-                else ret2login(-1, '用户名或密码错误'); // 密码错误
+                else ret2login(-1, '用户名或密码错误', $name); // 密码错误
             }
             else ret2login(-1, '用户不存在'); // 找不到用户
             mysqli_close($link);

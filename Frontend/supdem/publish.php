@@ -3,9 +3,8 @@
 require_once '../../Comm/function.php';
 require_once '../load_resources.php';
 preLoad(1);
+$link = link_SQL();
 if (isset($_POST['btn'])) {
-    unset($_POST['btn']);
-    $link = link_SQL();
     // 是否为空的检验在form里
     $id = genID($link, 'sup_and_dem');
     $query = <<<EOF
@@ -40,6 +39,9 @@ if (isset($_POST['btn'])) {
             // 上传错误 61/62/63
             jumpToURL('#', array('retVal' => 60 + $_FILES['img']['error']));
     }
+    $msg = '发布成功！';
+    unset($_POST['btn']);
+    jumpToURL("detail.php?id={$id}", array(), 1.5);
 }
 if (isset($_GET['retVal']))
 {
@@ -58,19 +60,21 @@ elseif (!isLoggedIn())
     $msg = '<span class="red">请先登录！</span>';
     jumpToURL('../user/login.php?from=supdem/publish.php', array(), 2);
 }
+if (isset($_POST['contact']))
+    $contact = $_POST['contact'];
 else
 {
-    $msg = '发布成功！';
-    jumpToURL("detail.php?id={$id}", array(), 1.5);
+    $user = getRet_SQL(mysqli_query($link, "SELECT * FROM `user_account` WHERE `id`={$_COOKIE['userID']}"));
+    $contact = $user['phone'] ? $user['phone'] : ($user['email'] ? $user['email'] : '');
 }
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>投稿</title>
+    <title>发布供需信息</title>
     <?php load_cssFile() ?>
-    <link rel="stylesheet" href="style/basic-grey.css" type="text/css" />
+    <link rel="stylesheet" href="<?= LOC ?>style/basic-grey.css" type="text/css" />
     <style type="text/css">
         #wrapper {
             background-color: #ffffff;
@@ -127,7 +131,7 @@ else
                 <label id="contact">
                     <span>联系方式：</span>
                     <input id="contact" type="text" name="contact" placeholder="请输入联系方式" 
-                    required="required" value="<?= @$_POST['contact'] ?>" />
+                    required="required" value="<?= $contact ?>" />
                 </label>
                 
                 <label>
@@ -145,6 +149,7 @@ else
 
     <?php
     unset($_POST);
+    mysqli_close($link);
     load_footer();
     // 页尾栏 
     ?>

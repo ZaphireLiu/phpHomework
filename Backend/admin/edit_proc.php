@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<!-- 
+<!--
     To do:
     - 错误返回自动填充
     - 手机号、邮箱格式校验
@@ -80,8 +80,11 @@ else
     $retVal = 0;
 if ($res && !$retVal)
 {
-    $msg = '操作成功，即将返回';
-    jumpToURL('adm_list.php', array(), 2);
+    $msg = '操作成功，'.(@$_GET["self"] ? '即将转到主页' : '即将返回');
+    if (isset($_GET["self"]))
+        jumpToURL(LOC.'index.php', array(), 2);
+    else
+        jumpToURL('admin_list.php', array(), 2);
 }
 else
 {   // ——数据库操作失败
@@ -93,16 +96,16 @@ else
 
 <head>
     <meta charset="utf-8">
-    <title>新增管理员账号</title>
+    <title><?= @$_GET["self"] ? "编辑个人资料" : "编辑管理员资料" ?></title>
     <?php load_cssFile()
-    // 加载css文件 
+    // 加载css文件
     ?>
 </head>
 
 <body>
 
     <?php
-    $bcArray = $_GET["title"] == '编辑管理员账号' ? 
+    $bcArray = !@$_GET["self"] ?
     array(
         '管理面板' => LOC.'index.php',
         '管理员' => '',
@@ -114,16 +117,16 @@ else
         '管理员' => '',
         '编辑个人资料' => '');
     load_navBar();
-    // 导航栏 
+    // 导航栏
     ?>
 
     <div class="main-container container-fluid">
         <div class="page-container">
             <?php load_sideBar()
-            // 侧边栏 
+            // 侧边栏
             ?>
             <div class="page-content">
-                <?php load_breadcrumb($bcArray) // 目录 
+                <?php load_breadcrumb($bcArray) // 目录
                 ?>
                 <!-- Page Body: 页面的主体 -->
                 <div class="page-body">
@@ -132,7 +135,9 @@ else
                             <div class="widget">
                                 <!-- Content: 页面内容 -->
                                 <div class="widget-header bordered-bottom bordered-blue">
-                                    <span class="widget-caption"><?= $_GET['title'] ?></span>
+                                    <span class="widget-caption">
+                                        <?= @$_GET["self"] ? "编辑个人资料" : "编辑管理员资料" ?>
+                                    </span>
                                 </div>
                                 <div class="widget-body">
                                     <div style="padding-top: 30px; padding-bottom: 40px">
@@ -152,7 +157,7 @@ else
     </div>
 
     <?php load_jsFile()
-    // 实现一些效果的js脚本文件 
+    // 实现一些效果的js脚本文件
     ?>
 
 </body>
