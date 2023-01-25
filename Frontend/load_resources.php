@@ -119,6 +119,7 @@ function preLoad($locLayer, $setLoginStat = false)
 function siteMap()
 {   // 因为直接定义数组会因为关键常量没初始化导致FatalError
     // 所以改成函数形式
+    // 0125：突然想起来还有类这个东西。。。有空再改吧（
     return array(
         '新闻' => array(
             'self' => LOC . 'list.php',
@@ -257,9 +258,9 @@ function load_header($showMask = false)
                 <div class="widget" style="height: 30px; padding-top: 20px;">
                     <!-- 搜索框 -->
                     <div style="float: left;">
-                        <form name="formsearch" action="<?= LOC ?>/search.php">
-                            <input type="hidden" name="kwtype" value="0">
-                            <input name="q" type="text" style="background-color: #000000; padding-left: 10px; font-size: 12px; font-family: 'Microsoft Yahei'; color: #999999; height: 29px; width: 160px; border: solid 1px #666666; line-height: 28px;" id="go" value="在这里搜索..." onfocus="if(this.value=='在这里搜索...'){this.value='';}" onblur="if(this.value==''){this.value='在这里搜索...';}" />
+                        <form name="formsearch" action="<?= LOC ?>search.php" method="GET">
+                            <!-- <input type="hidden" name="kwtype" value="0"> -->
+                            <input name="kw" type="text" style="background-color: #000000; padding-left: 10px; font-size: 12px; font-family: 'Microsoft Yahei'; color: #999999; height: 29px; width: 160px; border: solid 1px #666666; line-height: 28px;" id="go" value="在这里搜索..." onfocus="if(this.value=='在这里搜索...'){this.value='';}" onblur="if(this.value==''){this.value='在这里搜索...';}" />
                         </form>
                     </div>
                     <!-- /搜索框 -->

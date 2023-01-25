@@ -29,7 +29,7 @@ preLoad(0); // 初始化&登录检查
                 <!-- Page Body: 页面的主要内容 -->
                 <div class="page-body">
                     <div style="text-align:center; line-height:1000%; font-size:24px;">
-                        畜牧信息 - 后台管理系统
+                        畜牧信息平台 - 后台管理系统
                     </div>
                 </div>
                 <!-- /Page Body -->

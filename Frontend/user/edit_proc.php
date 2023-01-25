@@ -11,23 +11,27 @@ if (!isLoggedIn())
 if (!isset($_POST['btn']))
     jumpToURL('edit_info.php');
 
+$query = "SELECT * FROM `user_account` WHERE `id`={$_COOKIE['userID']}";
+$user  = getRet_SQL(mysqli_query($link, $query));
 // ----- 手机号
 if (isset($_POST['phone']))
 {
-    if (query_SQL($link, "SELECT `id` FROM `user_account` WHERE `phone`={$_POST['phone']}"))
-        jumpToURL('edit_info.php', array('ret' => 1));
+    if (query_SQL($link, "SELECT `id` FROM `user_account` WHERE `phone`='{$_POST['phone']}'"))
+        if ($user['phone'] != $_POST['phone'])
+            jumpToURL('edit_info.php', array('ret' => 1));
     else
-        $qPhone = "`phone`={$_POST['phone']},";
+        $qPhone = "`phone`='{$_POST['phone']}',";
 }
 else
     $qPhone = '';
 // ----- 邮箱
 if (isset($_POST['mail']))
 {
-    if (query_SQL($link, "SELECT `id` FROM `user_account` WHERE `email`={$_POST['mail']}"))
-        jumpToURL('edit_info.php', array('ret' => 2));
+    if (query_SQL($link, "SELECT `id` FROM `user_account` WHERE `email`='{$_POST['mail']}'"))
+        if ($user['email'] != $_POST['mail'])
+            jumpToURL('edit_info.php', array('ret' => 2));
     else
-        $qEmail = "`email`={$_POST['mail']}";
+        $qEmail = "`email`='{$_POST['mail']}'";
 }
 else
     $qEmail = '';
@@ -40,30 +44,28 @@ if ($qPhone || $qEmail)
         popWarn("SQL操作错误！");
 }
 // ----- 头像
-if ($_FILES['img']['erroe'] != 4)
-{
-    
-}
-
-if (!$_FILES['avatar']['error'])
-{
-    $suffix = @array_pop(explode('.', $_FILES['avatar']['name']));
-    $sufArr = array("bmp", "gif", "jpeg", "jpg", "png", "wbmp", "webp");
-    if (!in_array($suffix, $sufArr))
-        // 文件格式错误
-        jumpToURL('edit.php', array('retVal' => 60));
-    $retVal = saveResizedImg('avatar', $_POST['id'], LOC.'../Data/adminAvatar');
-    if ($retVal)
-    {
-        $retVal = -1*$retVal + 63;
-        jumpToURL('edit.php', array('retVal' => $retVal));
+if ($_FILES['img']['error'] != 4)
+{   // 上传
+    if (!$_FILES['img']['error'])
+    {   // 没错误
+        $suffix = @array_pop(explode('.', $_FILES['avatar']['name']));
+        $sufArr = array("bmp", "gif", "jpeg", "jpg", "png", "wbmp", "webp");
+        if (!in_array($suffix, $sufArr))
+            // 文件格式错误
+            jumpToURL('edit_info.php', array('retVal' => 60));
+        $retVal = saveResizedImg('img', $_COOKIE['userID'], LOC.'../Data/userAvatar');
+        if ($retVal)
+        {
+            $retVal = -1*$retVal + 63;
+            jumpToURL('edit_info.php', array('retVal' => $retVal));
+        }
     }
+    elseif ($_FILES['avatar']['error'] != 4)
+        // 上传错误 61/62/63
+        jumpToURL('edit_info.php', array('retVal' => 60 + $_FILES['avatar']['error']));
 }
-elseif ($_FILES['avatar']['error'] != 4)
-    // 上传错误 61/62/63
-    jumpToURL('edit.php', array('retVal' => 60 + $_FILES['avatar']['error']));
 else
-    // 没有上传头像
+    // 没有上传
     $retVal = 0;
 ?>
 

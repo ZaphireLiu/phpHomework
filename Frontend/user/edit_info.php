@@ -56,7 +56,7 @@ $msg  = isset($_GET['ret']) ? array(
                 </div>
             </div>
 
-            <form action="../../../Asset/Test/printForm.php" method="post" class="basic-grey" enctype="multipart/form-data">
+            <form action="edit_proc.php" method="post" class="basic-grey" enctype="multipart/form-data">
                 <div class="red" style="padding-left: 21%; padding-bottom: 15px; font-size: medium;"><?= $msg ?></div>
 
                 <label id="img">

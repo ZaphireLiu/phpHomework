@@ -62,12 +62,12 @@ $isSelf = $id == $_COOKIE['userID'];
                     // var_dump($rs);
                     foreach ($rs as $v) :
                     ?>
-                        <div class="publish-info">
+                        <a class="publish-info" href="../supdem/detail.php?id=<?= $v['id'] ?>">
                             <span class="<?= !$v['type'] ? "sup" : "dem" ?>">
                                 <?= !$v['type'] ? "供应" : "需求" ?>&nbsp;
                             </span>
                             <?= $v['name']?>
-                        </div>
+                        <br/> </a>
                     <?php endforeach ?>
                 </div>
                 <div class="clear"></div>

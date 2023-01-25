@@ -4,14 +4,33 @@ require_once '../../Comm/function.php';
 require_once '../load_resources.php';
 preLoad(1);
 $link = link_SQL();
+$msg  = '';
+
+if (!isLoggedIn())
+{
+    $msg = '<span class="red">请先登录！</span>';
+    jumpToURL('../user/login.php?from=supdem/edit.php', array(), 2);
+}
+if (!isset($_GET['id']))
+    // 参数错误
+    jumpToURL('list.php');
+else
+{   // 查询是否有修改权限
+    $query = "SELECT * FROM `sup_and_dem` WHERE `id`={$_GET['id']}";
+    $info  = getRet_SQL(mysqli_query($link, $query));
+    if (!$info || @$info['user_id'] != $_COOKIE['userID'])
+        jumpToURL('list.php');
+    $id = $info['id'];
+}
+
 if (isset($_POST['btn'])) {
     // 是否为空的检验在form里
-    $id = genID($link, 'sup_and_dem');
     $query = <<<EOF
-    INSERT INTO `sup_and_dem` 
-    (`id`, `name`, `contact`, `type`) 
-    VALUES 
-    ('{$id}', '{$_POST['name']}', '{$_POST['contact']}', {$_POST['type']});
+    UPDATE `sup_and_dem` SET
+    `name`={$_POST['name']},
+    `type`={$_POST['type']},
+    `publish_time`=NOW()
+    WHERE `id`={$id}
     EOF;
     // echo $query;
     $rs = mysqli_query($link, $query);
@@ -39,10 +58,11 @@ if (isset($_POST['btn'])) {
             // 上传错误 61/62/63
             jumpToURL('#', array('retVal' => 60 + $_FILES['img']['error']));
     }
-    $msg = '发布成功！';
+    $msg = '修改成功！';
     unset($_POST['btn']);
     jumpToURL("detail.php?id={$id}", array(), 1.5);
 }
+
 if (isset($_GET['retVal']))
 {
     $msg = '<span class="red">'.array(
@@ -55,28 +75,12 @@ if (isset($_GET['retVal']))
         66 => '文件格式错误，请重新选择文件'    // 文件格式与后缀名不符之类的问题，总之就是GD2库不认图片是图片
     )[$_GET['retVal']].'</span>';
 }
-elseif (!isLoggedIn())
-{
-    $msg = '<span class="red">请先登录！</span>';
-    jumpToURL('../user/login.php?from=supdem/publish.php', array(), 2);
-}
-else
-{
-    if (isset($_POST['contact']))
-    $contact = $_POST['contact'];
-    else
-    {
-        $query = "SELECT * FROM `user_account` WHERE `id`={$_COOKIE['userID']}";
-        $user = getRet_SQL(mysqli_query($link, $query));
-        $contact = $user['phone'] ? $user['phone'] : ($user['email'] ? $user['email'] : '');
-    }
-}
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>发布供需信息</title>
+    <title>修改供需信息</title>
     <?php load_cssFile() ?>
     <link rel="stylesheet" href="<?= LOC ?>style/basic-grey.css" type="text/css" />
     <style type="text/css">
@@ -101,7 +105,7 @@ else
         <div class="single_entry page_entry">
             <!-- <div class="entry"> -->
             <form action="#" method="post" class="basic-grey" enctype="multipart/form-data">
-                <h1>发布供应/需求信息
+                <h1>修改供需信息
                     <?= @$msg ?></span>
                 </h1>
 
@@ -110,21 +114,21 @@ else
                 <label id="typeSel">
                     <span>类型：</span>
                     <select id="typeSel" name="type">
-                        <option <?= !@$_POST['type'] ? 'selected' : '' ?> value="0">供应</option>
-                        <option <?=  @$_POST['type'] ? 'selected' : '' ?> value="1">需求</option>
+                        <option <?= !$info['type'] ? 'selected' : '' ?> value="0">供应</option>
+                        <option <?=  $info['type'] ? 'selected' : '' ?> value="1">需求</option>
                     </select>
                 </label>
                 
                 <label id="name">
                     <span>商品名称：</span>
                     <input id="name" type="text" name="name" placeholder="输入名称" 
-                    required="required" value="<?= @$_POST['name'] ?>" />
+                    required="required" value="<?= $info['name'] ?>" />
                 </label>
                 
                 <label id="content_input">
                     <span>描述：</span>
                     <textarea id="content_input" name="content" placeholder="输入描述" 
-                    required="required"><?= @$_POST['content'] ?></textarea>
+                    required="required"><?= file_get_contents(LOC.'../Data/supdem/'.$id.'.txt') ?></textarea>
                 </label>
                 
                 <label id="img">
@@ -135,7 +139,7 @@ else
                 <label id="contact">
                     <span>联系方式：</span>
                     <input id="contact" type="text" name="contact" placeholder="请输入联系方式" 
-                    required="required" value="<?= $contact ?>" />
+                    required="required" value="<?= $info['contact'] ?>" />
                 </label>
                 
                 <label>
