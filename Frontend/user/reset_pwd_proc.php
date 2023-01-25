@@ -7,7 +7,7 @@ preLoad(1, true);
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>注册</title>
+    <title>重置密码</title>
     <?php load_cssFile() ?>
     <link rel="stylesheet" type="text/css" href="login-asset/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="login-asset/css/util.css">

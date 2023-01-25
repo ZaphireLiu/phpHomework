@@ -1,37 +1,15 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <?php
-    require_once '../load_resources.php';
-    preLoad(1);
-    $rstTargetUrl = 'reset_pwd_proc.php';
-    if (isset($_GET['flag']))
-    {
-        switch ($_GET['flag']) {
-            case 1:
-                $errMsg = '您的密码被重置，请重新设置';
-                $rstTargetUrl .= '?flag=1';
-                break;
-            case 2:
-                $errMsg = '您的密码被重置，请重新设置';
-                $rstTargetUrl .= '?flag=1';
-                break;
-            case 3:
-                $errMsg = '输入密码两次不一致，请重新输入';
-                $rstTargetUrl .= '?flag=3';
-            default:
-                $errMsg = '';
-                break;
-        }
-    }
-    else
-        $errMsg = '';
-    if (isset($_GET['from']))
-        $rstTargetUrl .= '&from='.$_GET['from'];
+require_once '../load_resources.php';
+preLoad(1, true);
+
+$errMsg = '';
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>重置密码</title>
+    <title>忘记密码</title>
     <?php load_cssFile() ?>
     <link rel="stylesheet" type="text/css" href="login-asset/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="login-asset/css/util.css">
@@ -82,6 +60,13 @@
             padding-top: 5px;
             padding-bottom: 5px;
         }
+        .input-select {
+            height: 45px;
+            width: 100%;
+        }
+        .input-option{
+            font-size: 16px;
+        }
     </style>
 </head>
 
@@ -94,38 +79,42 @@
     <div id="wrapper" style="align-items: center;">
         <!-- 页面内容 -->
         <div class="wrap-login100" style="margin: auto; width: 700px; align-items:center; background-color: #222">
+            <!-- <div class="login100-form-title" style="background-image: url(login-asset/image/bg-01.jpg);">
+                <span class="login100-form-title-1">登 录</span>
+            </div> -->
             <div id="loginWindow">
                 <div class="title">
                     <span class="titleLine"></span>
                     <span class="titleText">
-                        &nbsp;&nbsp;&nbsp;&nbsp;重置账号密码&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;重&nbsp;置&nbsp;密&nbsp;码&nbsp;&nbsp;&nbsp;&nbsp;
                     </span>
                     <span class="titleLine"></span>
                 </div>
                 <p class="errMsg">
-                    &nbsp;<?=$errMsg?>&nbsp;</p> <!-- 加俩空格占位就不用display和visibility了 -->
-                <form class="login100-form validate-form" style="width: 700px" action="<?= $rstTargetUrl ?>" method="post">
+                    &nbsp;<?=$errMsg?>&nbsp;</p><!-- 加俩空格占位就不用display和visibility了 -->
+                <form class="login100-form validate-form" style="width: 700px" action="forget_proc.php" method="post">
                     <!-- 输入 -->
-                    <?php if (!isset($_GET['flag']) || @$_GET['flag'] != 1): ?>
-                    <div class="wrap-input100 validate-input m-b-18" data-validate="密码不能为空">
-                        <span class="label-input100" style="user-select:none;">原密码</span>
-                        <input class="input100" type="password" name="passwordOri" placeholder="请输入密码">
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="用户名不能为空">
+                        <span class="label-input100" style="user-select:none;">用户名</span>
+                        <input class="input100" type="text" name="username" placeholder="请输入用户名">
                         <span class="focus-input100"></span>
                     </div>
-                    <?php endif ?>
-                    <div class="wrap-input100 validate-input m-b-18" data-validate="密码不能为空">
-                        <span class="label-input100" style="user-select:none;">新密码</span>
-                        <input class="input100" type="password" name="password" placeholder="请输入密码">
+                    <div class="wrap-input100 m-b-26">
+                        <span class="label-input100" style="user-select:none;">验证方式</span>
+                        <select class="input-select" name="sel">
+                            <option class="input-option" value="phone">手机号</option>
+                            <option class="input-option" value="email">邮箱地址</option>
+                        </select>
                         <span class="focus-input100"></span>
                     </div>
-                    <div class="wrap-input100 validate-input m-b-18" data-validate="输入错误">
-                        <span class="label-input100" style="user-select:none;">确认密码</span>
-                        <input class="input100" type="password" name="passwordValid" placeholder="请再次输入密码">
+                    <div class="wrap-input100 validate-input m-b-26" data-validate="信息不能为空">
+                        <span class="label-input100" style="user-select:none;">验证信息</span>
+                        <input class="input100" type="text" name="valid" placeholder="请输入手机号/邮箱">
                         <span class="focus-input100"></span>
                     </div>
                     <!-- 按钮 -->
-                    <div class="container-login100-form-btn" style="margin: auto; padding-top: 25px">
-                        <input class="login100-form-btn" type="submit" name="btn_login" value="重置密码" style="margin: auto"></a>
+                    <div class="container-login100-form-btn" style="margin: auto">
+                        <input class="login100-form-btn" type="submit" name="btn" value="验   证" style="margin: auto">
                     </div>
                 </form>
                 <div style="padding: 20px 45px 45px 45px; text-align: center">

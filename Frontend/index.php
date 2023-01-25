@@ -53,10 +53,14 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
                             <ul>
                                 <?php
                                 $query = "SELECT * FROM `news_data` WHERE `recommend`=1 ORDER BY `publish_time` DESC";
-                                foreach (array_slice(query_SQL($link, $query), 0, 4) as $recNews):
+                                $result = query_SQL($link, $query);
+                                foreach (array_slice($result, 0, 4) as $recNews) :
                                 ?>
-                                <li style="display: list-item;"><a href="<?= LOC.'article.php?id='.$recNews['id'] ?>" target="_blank">
-                                    <img src="<?= getNewsImg(LOC, $recNews['id']) ?>" alt="<?= cutStr($recNews['title'], 10) ?>"> </a> </li>
+                                    <li style="display: list-item;">
+                                        <a href="<?= LOC . 'article.php?id=' . $recNews['id'] ?>" target="_blank">
+                                            <img src="<?= getNewsImg(LOC, $recNews['id']) ?>" alt="<?= cutStr($recNews['title'], 10) ?>"> 
+                                        </a> 
+                                    </li>
                                 <?php endforeach; ?>
                             </ul>
                         </div>
@@ -78,14 +82,28 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
                         <!-- <div id="focus-right" class="arrow-right" onmouseover="IFocuse(this,true)" onmouseout="IFocuse(this,false)"></div> -->
                     </div>
                 </div>
-                <div id="picshow_right" style="background-color: #123;">
-
-                    <!-- <a href="/life/416.html" target="_blank">
-                        <img src="./images/1-140206160415Y6.jpg" alt="COACH再度携手王力宏 踩单车演" width="255px" height="420px"></a>
-
-                    <div id="picshow_right_cover" onclick="goanewurl()" 
-                    style="cursor:pointer;position:absolute;top:495px;font-size:14px;width:213px;height:45px;line-height:45px;padding-left:42px;color:#ffffff;zoom:1;background-image:url(./images/focus-left-bg.png); background-repeat:no-repeat; background-color:#01A1ED;">
-                    </div> -->
+                <div id="picshow_right">
+                    <div class="rightWidgetTitle">推荐新闻</div>
+                    <ul id="ulHot">
+                        <?php
+                        $rs_rec = getRet_SQL(mysqli_query($link, 'SELECT * FROM `news_data` WHERE `recommend`=1 ORDER BY `publish_time` DESC'));
+                        $newsRec = array_slice($rs_rec, 4, 4);
+                        foreach ($newsRec as $v) :
+                        ?>
+                            <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
+                                <div style="float:left;width:85px;height:55px; overflow:hidden;">
+                                    <a href="detail.php?id=<?= $v['id'] ?>" target="_blank">
+                                        <img src="<?= getNewsImg(LOC, $v['id']) ?>" width="83 !important" height="83 !important" title="<?= $v['title'] ?>" style="padding-left:4px" />
+                                    </a>
+                                </div>
+                                <div style="float:right;width:175px;height:52px; overflow:hidden;">
+                                    <a href="detail.php?id=<?= $v['id'] ?>" target="_blank" title="<?= $v['title'] ?>">
+                                        <?= cutStr($v['title'], 20) ?>
+                                    </a>
+                                </div>
+                            </li>
+                        <?php endforeach; ?>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -95,51 +113,62 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
                 <div class="xh_area_h_3">
                     <div class="xh_area_title">
                         <span class="r">
-                        <?php foreach (siteMap() as $kA => $arr): if ($kA != '关于我们'):?>
-                            <!-- <a href='<?= $arr['self'] ?>'><?= $kA ?></a> -->
-                            <?php foreach ($arr as $k => $v): if ($k != 'self'): ?>
-                            <a href='<?= $v ?>'><?= $k ?></a>
-                        <?php endif; endforeach; endif; endforeach; ?>
+                            <?php foreach (siteMap() as $kA => $arr) : if ($kA != '关于我们') : ?>
+                                    <!-- <a href='<?= $arr['self'] ?>'><?= $kA ?></a> -->
+                                    <?php foreach ($arr as $k => $v) : if ($k != 'self') : ?>
+                                            <a href='<?= $v ?>'><?= $k ?></a>
+                            <?php endif;
+                                    endforeach;
+                                endif;
+                            endforeach; ?>
                         </span>
                     </div>
                     <br>
 
+                    <!-- 最新新闻 -->
                     <?php
                     $query = "SELECT * FROM `news_data` ORDER BY `publish_time` DESC";
                     $rs = query_SQL($link, $query);
-                    foreach (array_slice($rs, 0, DISPLAY_NUM) as $news):
+                    foreach (array_slice($rs, 0, DISPLAY_NUM) as $news) :
                         if (!$news['type']) continue;
-                        switch ($news['type']) 
-                        {
-                            case '1' : $category = '禽业新闻'; break;
-                            case '2' : $category = '猪业新闻'; break;
-                            case '3' : $category = '饲料新闻'; break;
-                            default  : $category = '新闻'; break;
+                        switch ($news['type']) {
+                            case '1':
+                                $category = '禽业新闻';
+                                break;
+                            case '2':
+                                $category = '猪业新闻';
+                                break;
+                            case '3':
+                                $category = '饲料新闻';
+                                break;
+                            default:
+                                $category = '新闻';
+                                break;
                         }
                     ?>
-                    <!-- <?= $news['id'] ?> -->
-                    <div class="xh_post_h_3 ofh">
-                        <div class="xh_265x265">
-                            <a target="_blank" href="article.php?id=<?= $news['id'] ?>" title="<?= $news['title'] ?>">
-                                <img src="<?= getNewsImg(LOC, $news['id']) ?>" alt="<?= $news['title'] ?>" height="240" width="400"></a>
-                        </div>
-                        <div class="r ofh">
-                            <h2 class="xh_post_h_3_title ofh">
-                                <a target="_blank" href="article.php?id=<?= $news['id'] ?>" title="<?= $news['title'] ?>"><?= cutStr($news['title'], 24) ?></a>
-                            </h2>
-                            <span class="time"><?= $news['publish_time'] ?></span>
-                            <div class="xh_post_h_3_entry ofh">
-                                <?= mb_readFile(LOC.'../Data/news/'.$news['id'].'.txt', DETAIL_SIZE) ?>
+                        <!-- <?= $news['id'] ?> -->
+                        <div class="xh_post_h_3 ofh">
+                            <div class="xh_265x265">
+                                <a target="_blank" href="article.php?id=<?= $news['id'] ?>" title="<?= $news['title'] ?>">
+                                    <img src="<?= getNewsImg(LOC, $news['id']) ?>" alt="<?= $news['title'] ?>" height="240" width="400"></a>
                             </div>
-                            <div class="b">
-                                <span class="bartext"></span></span> <span title="<?= $news['view_time'] ?>人浏览" class="xh_views"><?= $news['view_time'] ?></span>
+                            <div class="r ofh">
+                                <h2 class="xh_post_h_3_title ofh">
+                                    <a target="_blank" href="article.php?id=<?= $news['id'] ?>" title="<?= $news['title'] ?>"><?= cutStr($news['title'], 24) ?></a>
+                                </h2>
+                                <span class="time"><?= $news['publish_time'] ?></span>
+                                <div class="xh_post_h_3_entry ofh">
+                                    <?= mb_readFile(LOC . '../Data/news/' . $news['id'] . '.txt', DETAIL_SIZE) ?>
+                                </div>
+                                <div class="b">
+                                    <span class="bartext"></span></span> <span title="<?= $news['view_time'] ?>人浏览" class="xh_views"><?= $news['view_time'] ?></span>
+                                </div>
                             </div>
+                            <span class="cat">
+                                <a href="list.php?listID=<?= $news['type'] ?>" title="查看<?= $category ?>中的全部文章" rel="category tag">
+                                    <?= $category ?> </a>
+                            </span>
                         </div>
-                        <span class="cat">
-                            <a href="list.php?listID=<?= $news['type'] ?>" title="查看<?= $category ?>中的全部文章" rel="category tag">
-                                <?= $category ?> </a>
-                        </span>
-                    </div>
                     <?php endforeach; ?>
                 </div>
                 <div id="pagination">
@@ -148,9 +177,10 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
                     </div>
                 </div>
             </div>
-            <div id="xh_sidebar">
 
-            <div class="widget">
+            <!-- 侧边栏 - 最新供需信息  -->
+            <div id="xh_sidebar">
+                <div class="widget">
                     <div class="rightWidgetTitle">供需信息</div>
                     <ul id="ulHot">
                         <?php
@@ -248,10 +278,10 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
         </script>
 
     </div>
-    
+
 
     <?php
-    load_siteMap(); 
+    load_siteMap();
     load_footer();
     // 网站地图、页尾栏 
     ?>

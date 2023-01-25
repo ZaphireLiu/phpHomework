@@ -29,8 +29,7 @@ preLoad(0); // 初始化&登录检查
                 <!-- Page Body: 页面的主要内容 -->
                 <div class="page-body">
                     <div style="text-align:center; line-height:1000%; font-size:24px;">
-                        XX种质资源数据管理系统<br>
-                        <p style="color:#f00;">To do: del处理<br>把所有js确认全移动到list里</p>
+                        畜牧信息 - 后台管理系统
                     </div>
                 </div>
                 <!-- /Page Body -->

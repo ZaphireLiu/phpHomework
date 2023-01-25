@@ -13,6 +13,8 @@ $query = "SELECT * FROM `news_data` WHERE `id`={$_GET['id']}";
 $rs = getRet_SQL(mysqli_query($link, $query));
 if (!$rs)
     jumpToURL('error.php', array('newsNotExist' => 1));
+$query = "UPDATE `news_data` SET `view_time`=`view_time`+1 WHERE `id`={$_GET['id']}";
+mysqli_query($link, $query);
 $art_title = $rs['title'];
 $art_time = $rs['publish_time'];
 $art_info = $rs['info'];
@@ -73,6 +75,9 @@ $art_info = $rs['info'];
                                         <?php if ($rs['source']): ?>
                                             <a style="color: #666" href="<?= $rs['source'] ?>">文章来源</a>
                                         <?php endif ?>
+                                    </div>
+                                    <div style="float: right; font-size: 12px;">
+                                        浏览次数：<?= $rs['view_time'] ?>
                                     </div>
                                     <div style="clear: both;">
                                     </div>

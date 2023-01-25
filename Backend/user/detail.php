@@ -77,18 +77,24 @@ $rs = getRet_SQL(mysqli_query($link, $query));
                                         <div class="detail">
                                         <table class="table table-bordered table-hover" style="padding-bottom: 20px;">
                                             <?php 
-                                            foreach ($nameMap as $k => $v):
-                                                if ($k == 'pwd_rst')
-                                                    $val = $rs[$k] ? '是' : '否';
-                                                elseif ($k == 'cancelled')
-                                                    $val = $rs[$k] ? '是' : '否';
-                                                else
-                                                    $val = $rs[$k];
+                                            if (!$rs['cancelled']):
+                                                foreach ($nameMap as $k => $v):
+                                                    if ($k == 'pwd_rst')
+                                                        $val = $rs[$k] ? '是' : '否';
+                                                    elseif ($k != 'cancelled')
+                                                        $val = $rs[$k];
                                             ?>
                                             <tr>
                                                 <td class="text-center tabel-title"><?= $v ?></td><td><?= $val ?></td>
                                             </tr>
-                                            <?php endforeach; ?>
+                                            <?php endforeach; else:?>
+                                            <tr>
+                                                <td class="text-center tabel-title">账号ID</td><td style="width: 60%;"><?= $rs['id'] ?></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center tabel-title red" colspan="2">账号已注销</td>
+                                            </tr>    
+                                            <?php endif; ?>
                                         <!-- <div style="padding-bottom: 25px;">here</div> -->
                                         <!-- /Page Body -->
                                     </div>

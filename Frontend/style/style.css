@@ -2855,8 +2855,8 @@ New: xh_
 }
 
 #picshow_right img {
-    width: 255px;
-    height: 430px;
+    /* width: 255px; */
+    /* height: 430px; */
 }
 
 /* #xh_container */

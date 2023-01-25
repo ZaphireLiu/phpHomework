@@ -81,7 +81,8 @@ function preLoad($locLayer, $setLoginStat = false)
     $selfNameCheck = array(
         'login.php',        'login_proc.php',
         'signup.php',       'signup_proc.php',
-        'reset_pwd.php',    'reset_pwd_proc.php'
+        'reset_pwd.php',    'reset_pwd_proc.php',
+        'forget_pwd.php',   'forget_proc.php'
     );
     foreach ($selfNameCheck as $v) {
         if ($selfName == $v)

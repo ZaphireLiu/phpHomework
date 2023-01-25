@@ -199,7 +199,7 @@ function load_sideBar($displaySearch = false)
                 <a href="<?= LOC ?>index.php" target="_blank" class="menu-dropdown">
                     <i class="menu-icon fa fa-home"></i>
                     <span class="menu-text">主页</span>
-                    <i class="menu-expand"></i>
+                    <!-- <i class="menu-expand"></i> -->
                 </a>
             </li>
             <li>
@@ -317,6 +317,14 @@ function load_sideBar($displaySearch = false)
                         </a>
                     </li>
                 </ul>
+            </li>
+
+            <li>
+                <a href="<?= LOC ?>../Frontend/index.php" target="_blank" class="menu-dropdown">
+                    <i class="menu-icon fa fa-home"></i>
+                    <span class="menu-text">转到前台网站</span>
+                    <!-- <i class="menu-expand"></i> -->
+                </a>
             </li>
         </ul>
         <!-- /Sidebar Menu -->
