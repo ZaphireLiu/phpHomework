@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-    To do:
-    - 重置密码处理（目前为了测试暂时先直接放进去）
--->
 <?php @session_start(); ?>
 <html>
 <head>

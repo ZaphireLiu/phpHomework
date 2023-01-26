@@ -7,7 +7,7 @@
  * 获取头像文件
  * @param string $relLoc load_resources文件生成的LOC常量
  * @param string $imgName 文件名（无后缀），即用户的ID
- * @return str 用户头像文件的路径
+ * @return string 用户头像文件的路径
  */
 function getAvatar($relLoc, $imgName)
 {
@@ -35,8 +35,8 @@ function getNewsImg($relLoc, $imgName)
  * 获取供需宣传图文件
  * @param mysqli $link 数据库连接
  * @param string $relLoc load_resources文件生成的LOC常量
- * @param string $imgName 文件名（无后缀），即新闻的ID
- * @return str 文件的路径
+ * @param string $imgName 文件名（无后缀），即ID
+ * @return string 文件的路径
  */
 function getInfoImg($link, $relLoc, $imgName)
 {
@@ -380,4 +380,4 @@ function load_footer($btm = 0)
         <script type="text/javascript" src="<?= LOC ?>style/z700bike_global.js"></script>
     </div>
 
-<?php } ?>
+<?php }

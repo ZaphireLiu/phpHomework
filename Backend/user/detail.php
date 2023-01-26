@@ -63,7 +63,7 @@ $rs = getRet_SQL(mysqli_query($link, $query));
             <?php load_breadcrumb(array(
                     '管理面板' => LOC . 'index.php',
                     '用户管理' => '',
-                    '用户列表' => 'adm_list.php',
+                    '用户列表' => 'list.php',
                     '账号详情' => ''
                 )) ?>
                 <div class="page-body">

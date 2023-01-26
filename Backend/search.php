@@ -2,26 +2,50 @@
 <?php
 require_once 'load_resources.php';
 preLoad(0); //初始化&登录检查
-if (isset($_GET['keyword'])) {
-    $searchContent = $_GET['keyword'];
-    $title = '搜索结果 - ' . $searchContent;
-    $mode = 1;
+$link = link_SQL();
+if (isset($_GET['kw'])) {
+    $searchContent = $_GET['kw'];
+    $title   = '搜索结果 - ' . $searchContent;
+    $mode    = 1;
+    // 获取搜索结果
+    $query   = "SELECT * FROM `news_data` WHERE `title` LIKE '%{$_GET['kw']}%' ORDER BY `publish_time` DESC";
+    $rs_news = query_SQL($link, $query);
+    $query   = "SELECT * FROM `sup_and_dem` WHERE `name` LIKE '%{$_GET['kw']}%' ORDER BY `publish_time` DESC";
+    $rs_info = query_SQL($link, $query);
+    $query   = "SELECT * FROM `user_account` WHERE `name` LIKE '%{$_GET['kw']}%' ORDER BY `create_time` DESC";
+    $rs_user = query_SQL($link, $query);
+    // 合并、排序结果
+    $rs     = array();
+    if ($rs_news)
+        foreach ($rs_news as $v)
+        {
+            $v['search_type'] = '新闻';
+            $v['search_time'] = $v['publish_time'];
+            $v['url']         = './content/edit_news.php?id='.$v['id'];
+            $rs[]             = $v;
+        }
+    if ($rs_info)
+        foreach ($rs_info as $v)
+        {
+            $v['search_type'] = '供需';
+            $v['search_time'] = $v['publish_time'];
+            $v['url']         = './content/detail_info.php?id='.$v['id'];
+            $rs[]             = $v;
+        }
+    if ($rs_user)
+        foreach ($rs_user as $v)
+        {
+            $v['search_type'] = '用户';
+            $v['search_time'] = $v['create_time'];
+            $v['url']         = './user/detail.php?id='.$v['id'];
+            $rs[]             = $v;
+        }
+    sortSearchRes($rs);    
 } else {
     $title = '搜索页';
     $mode = 0;
 }
-$resTest = array(
-    'self'          => LOC . 'list.php?listID=1',
-    '禽业'          => '',
-    '猪业'          => LOC . 'list.php?listID=11',
-    '饲料'          => '',
-    'self'          => LOC . 'list.php?listID=2',
-    '查看供应信息'  => LOC . 'list.php?listID=20',
-    '查看需求信息'  => '',
-    '发布信息'      => LOC . 'publish.php' ,
-    'self'          => LOC . 'about.php',
-    '联系我们'      => LOC . 'contact.php'
-);
+mysqli_close($link);
 ?>
 <html>
 
@@ -38,13 +62,19 @@ $resTest = array(
             margin-left: auto;
             margin-right: auto;
         }
-        .searchRes .head {
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
         .searchRes .btn-left {
             float: right;
             width: 34px;
+        }
+        .searchRes .item {
+            padding-top: 5px;
+            padding-bottom: 10px;
+        }
+        .searchRes .head {
+            font-weight: bold;
+            width: 70px;
+            text-align: center;
+            padding-right: 2px;
         }
     </style>
 </head>
@@ -77,23 +107,26 @@ $resTest = array(
                                             <div class="form-group">
                                                 <label for="search" class="col-sm-2 control-label no-padding-right">搜索内容</label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" id="search" placeholder="按下回车以搜索" name="keyword" type="text">
+                                                    <input class="form-control" id="search" placeholder="按下回车以搜索" name="kw" type="text">
                                                 </div>
                                                 <input type="submit" class="btn btn-default btn-left" style="font-family: FontAwesome" value="&#xf002;">
                                             </div>
                                         </form>
                                         <hr style="width: 80%;"/>
+                                        <?php if ($mode): ?>
+                                        <!-- 搜索结果 -->
                                         <div class='searchRes'>
-                                        <?php 
-                                        foreach ($resTest as $k => $v):
-                                            echo $v ? "<a href='{$v}'><p class='head'>" : "<p class='head'>";
-                                        ?>
-                                        <?= $k ?>
-                                        <?php 
-                                            echo $v ? '</p></a>' : '</p>';
-                                        endforeach;
-                                        ?>
+                                            <?php foreach ($rs as $v): ?>
+                                            <div class="item">
+                                                <a style="color: #003371" href="<?= $v['url'] ?>" target="_blank">
+                                                    <span class="head"> <?= $v['search_type'] ?> </span>
+                                                    <?= cutStr($v['name']??$v['title'], 25) ?>
+                                                </a>
+                                            </div>
+                                            <?php endforeach; ?>
                                         </div>
+                                        <!-- /搜索结果 -->
+                                        <?php endif; ?>
                                         <div style="padding-bottom: 25px;"></div>
                                         <!-- /Page Body -->
                                     </div>

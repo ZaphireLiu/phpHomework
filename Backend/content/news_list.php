@@ -104,10 +104,11 @@ $newsList = getRet_SQL(mysqli_query($link, $query));
                                                     <td align="center"><?= $news['publish_time'] ?></td>
                                                     <td align="center"><?= $newsType ?></td>
                                                     <td align="center">
-                                                        <button type="button" tooltip="转到新闻页面" class="btn btn-sm btn-azure btn-addon"
-                                                        onClick="javascript:window.location.href = '<?= $newsUrl ?>'">
-                                                            <i class="fa fa-info"></i>转到新闻页面
-                                                        </button>
+                                                        <a href="<?= $newsUrl ?>" target="_blank">
+                                                            <button type="button" tooltip="转到新闻页面" class="btn btn-sm btn-azure btn-addon">
+                                                                <i class="fa fa-link"></i>转到新闻页面
+                                                            </button>
+                                                        </a>
                                                         <button type="button" tooltip="编辑" class="btn btn-sm btn-azure btn-addon"
                                                         onClick="javascript:window.location.href = 'edit_news.php?id=<?= $news['id'] ?>'">
                                                             <i class="fa fa-wrench"></i>编辑

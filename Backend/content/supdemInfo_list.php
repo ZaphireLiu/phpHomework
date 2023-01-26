@@ -88,10 +88,15 @@ $infoList = getRet_SQL(mysqli_query($link, $query));
                                                     <td align="center"><?= $info['publish_time'] ?></td>
                                                     <td align="center"><?= $infoType ?></td>
                                                     <td align="center">
-                                                        <button type="button" tooltip="转到页面" class="btn btn-sm btn-azure btn-addon" 
-                                                        onClick="javascript:window.location.href = '<?= $infoUrl ?>'">
-                                                            <i class="fa fa-info"></i>转到页面
-                                                        </button>                                                
+                                                        <a href="<?= $infoUrl ?>" target="_blank">
+                                                            <button type="button" tooltip="转到页面" class="btn btn-sm btn-azure btn-addon">
+                                                                <i class="fa fa-link"></i>转到页面
+                                                            </button>
+                                                        </a>
+                                                        <button type="button" tooltip="查看内容" class="btn btn-sm btn-azure btn-addon" 
+                                                        onClick="javascript:window.location.href = 'detail_info.php?id=<?= $info['id'] ?>'">
+                                                            <i class="fa fa-info"></i>查看内容
+                                                        </button>                                               
                                                         <button type="button" tooltip="删除" class="btn btn-sm btn-azure btn-addon" 
                                                         onClick="javascript:confirmDelInfo(<?= $info['id'] ?>, '<?= $info['name'] ?>')">
                                                             <i class="fa fa-trash-o"></i>删除

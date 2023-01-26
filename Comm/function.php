@@ -83,7 +83,6 @@ function jumpToURL($url, $getArr = array(), $waitTime = 0)
 }
 /**
  * 验证登录  
- * To do: 注册时进行验证
  * @param mysqli_result $rs SQL结果
  * @param string $target 匹配对象
  * @return array 对应用户信息
@@ -282,6 +281,29 @@ function genID($link, $table_name)
     else
     {   // 没有记录
         return 0;
+    }
+}
+/**
+ * 对搜索结果排序
+ * @param array $rs 结果，每个结果中必须包含`search_time`字段
+ * @return null
+ */
+function sortSearchRes(&$rs)
+{
+    $isSorted = false;
+    while (!$isSorted)
+    {
+        $isSorted = true;
+        for ($i=0; $i<count($rs)-1; $i++)
+        {
+            if (strtotime($rs[$i]['search_time']) < strtotime($rs[$i+1]['search_time']))
+            {
+                $isSorted = false;
+                $cache    = $rs[$i];
+                $rs[$i]   = $rs[$i+1];
+                $rs[$i+1] = $cache;
+            }
+        }
     }
 }
 ?>

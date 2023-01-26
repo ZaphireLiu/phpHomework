@@ -21,10 +21,21 @@ if (isset($_GET['kw']))
     $title  = '搜索结果 - '.$_GET['kw'];
     $url    = 'search.php?kw='.$_GET['kw'].'&page='.$page;
     $rs     = array();
-    foreach ($rs_news as $v)
-        $rs[] = $v;
-    foreach ($rs_info as $v)
-        $rs[] = $v;
+    if ($rs_news)
+        foreach ($rs_news as $v)
+        {
+            $v['search_type'] = 'news';
+            $v['search_time'] = $v['publish_time'];
+            $rs[]             = $v;
+        }
+    if ($rs_info)
+        foreach ($rs_info as $v)
+        {
+            $v['search_type'] = 'info';
+            $v['search_time'] = $v['publish_time'];
+            $rs[]             = $v;
+        }
+    sortSearchRes($rs);
 }
 else 
 {

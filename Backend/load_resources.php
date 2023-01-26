@@ -7,7 +7,7 @@
  * 获取头像文件
  * @param string $relLoc load_resources文件生成的LOC常量
  * @param string $imgName 文件名（无后缀），即用户的ID
- * @return str 用户头像文件的路径
+ * @return string 用户头像文件的路径
  */
 function getAvatar($relLoc, $imgName)
 {
@@ -16,6 +16,28 @@ function getAvatar($relLoc, $imgName)
         return $relLoc . '../Data/adminAvatar/' . $imgName . '.png';
     else
         return $relLoc . '../Data/adminAvatar/default.png';
+}
+/**
+ * 获取供需宣传图文件
+ * @param mysqli $link 数据库连接
+ * @param string $relLoc load_resources文件生成的LOC常量
+ * @param string $imgName 文件名（无后缀），即ID
+ * @return string 文件的路径
+ */
+function getInfoImg($link, $relLoc, $imgName)
+{
+    $fileList = scandir($relLoc . '../Data/supdemImg');
+    if (in_array($imgName . '.png', $fileList))
+        return $relLoc . '../Data/supdemImg/' . $imgName . '.png';
+    else
+    {
+        $query = "SELECT `type` FROM `sup_and_dem` WHERE `id`={$imgName}";
+        $rs = getRet_SQL(mysqli_query($link, $query));
+        if (!$rs['type'])
+            return $relLoc . '../Data/supdemImg/default_supply.png';
+        else
+            return $relLoc . '../Data/supdemImg/default_demand.png';
+    }
 }
 /**
  * 载入文件前需要先定义网页文件的相对位置，并检查登录状态
@@ -164,7 +186,7 @@ function load_navBar()
 /**
  * 侧边栏
  */
-function load_sideBar($displaySearch = false)
+function load_sideBar($displaySearch = true)
 {
 ?>
     <script type="text/javascript">
@@ -179,12 +201,11 @@ function load_sideBar($displaySearch = false)
         <!-- Page Sidebar Header -->
         <div class="sidebar-header-wrapper">
             <?php if ($displaySearch) : ?>
-                <form action="search.php" method="get">
-                    <input class="searchinput" name="keyword" type="text">
+                <form action="<?= LOC ?>search.php" method="get">
+                    <input class="searchinput" name="kw" type="text" placeholder="新闻、供需信息或用户">
                     <input type="submit" style="display: none;">
                 </form>
                 <i class="searchicon fa fa-search"></i>
-                <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
             <?php endif; ?>
         </div>
         <!-- /Page Sidebar Header -->
@@ -199,6 +220,13 @@ function load_sideBar($displaySearch = false)
                 <a href="<?= LOC ?>index.php" target="_blank" class="menu-dropdown">
                     <i class="menu-icon fa fa-home"></i>
                     <span class="menu-text">主页</span>
+                    <!-- <i class="menu-expand"></i> -->
+                </a>
+            </li>
+            <li>
+                <a href="<?= LOC ?>../Frontend/index.php" target="_blank" class="menu-dropdown">
+                    <i class="menu-icon fa fa-list-alt"></i>
+                    <span class="menu-text">转到前台网站</span>
                     <!-- <i class="menu-expand"></i> -->
                 </a>
             </li>
@@ -317,14 +345,6 @@ function load_sideBar($displaySearch = false)
                         </a>
                     </li>
                 </ul>
-            </li>
-
-            <li>
-                <a href="<?= LOC ?>../Frontend/index.php" target="_blank" class="menu-dropdown">
-                    <i class="menu-icon fa fa-home"></i>
-                    <span class="menu-text">转到前台网站</span>
-                    <!-- <i class="menu-expand"></i> -->
-                </a>
             </li>
         </ul>
         <!-- /Sidebar Menu -->

@@ -28,6 +28,7 @@ else
 
 $link = link_SQL();
 $data = getRet_SQL(mysqli_query($link, "SELECT * FROM `news_data` WHERE `id`={$_GET['id']}"));
+mysqli_close($link);
 ?>
 <html>
 
@@ -83,20 +84,20 @@ $data = getRet_SQL(mysqli_query($link, "SELECT * FROM `news_data` WHERE `id`={$_
                                             <div class="form-group">
                                                     <label for="id" class="col-sm-2 control-label no-padding-right">ID</label>
                                                     <div class="col-sm-6">
-                                                        <input class="form-control" id="id" placeholder="ID" name="id" required="" readonly="readonly" type="text" value="<?= $_GET['id'] ?>">
+                                                        <input class="form-control" id="id" placeholder="ID" name="id" required="required" readonly="readonly" type="text" value="<?= $_GET['id'] ?>">
                                                     </div>
                                                 </div>    
                                             <div class="form-group">
                                                 <label for="title" class="col-sm-2 control-label no-padding-right">新闻标题</label>
                                                 <div class="col-sm-6">
-                                                    <input class="form-control" id="title" placeholder="新闻标题" name="title" required="" type="text" value=<?= $data['title'] ?>>
+                                                    <input class="form-control" id="title" placeholder="新闻标题" name="title" required="required" type="text" value=<?= $data['title'] ?>>
                                                 </div>
                                                 <p class="help-block col-sm-4 red">必填</p>
                                             </div>
                                             <div class="form-group">
                                                 <label for="username" class="col-sm-2 control-label no-padding-right">正文</label>
                                                 <div class="col-sm-6">
-                                                    <textarea class="form-control" id="content" form="news_form" rows="10" placeholder="新闻正文" name="content" required=""><?= file_get_contents(LOC.'../Data/news/'.$_GET['id'].'.txt') ?></textarea>
+                                                    <textarea class="form-control" id="content" form="news_form" rows="10" placeholder="新闻正文" name="content" required="required" style="resize: none"><?= file_get_contents(LOC.'../Data/news/'.$_GET['id'].'.txt') ?></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
