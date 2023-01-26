@@ -9,7 +9,7 @@ if (!isLoggedIn())
 $id   = $_COOKIE['userID'];
 $link = link_SQL();
 $user = getRet_SQL(mysqli_query($link, "SELECT * FROM `user_account` WHERE `id`={$id}"));
-$msg  = isset($_GET['ret']) ? array(
+$msg  = isset($_GET['retVal']) ? array(
     1 => '手机号已被使用！',
     2 => '邮箱已被使用！',
     60 => '头像文件格式错误，请重新选择头像文件',
@@ -19,7 +19,7 @@ $msg  = isset($_GET['ret']) ? array(
     64 => '头像文件上传不成功，请重新上传',         // 移动临时文件失败
     65 => '头像文件格式错误，请重新选择头像文件',   // 同60，函数检查出错误
     66 => '头像文件格式错误，请重新选择头像文件'    // 文件格式与后缀名不符
-)[@$_GET['ret']] : '';
+)[@$_GET['retVal']] : '';
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 

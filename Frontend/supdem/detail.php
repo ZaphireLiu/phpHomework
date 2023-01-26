@@ -50,7 +50,10 @@ $info_contact = $rs['contact'];
             <div id="content">
                 <div class="post" id="post-19563" style="border-right: solid 1px #000000; min-height: 1500px;
                     margin-top: 10px;">
-                    <?php load_path(array('主页' => LOC . 'index.php', '新闻' => LOC . 'index.php', $info_title => '#')) ?>
+                    <?php load_path(array(
+                        '主页' => LOC . 'index.php', 
+                        !$rs['type'] ? "供应信息" : "需求信息" => 'list.php?id='.$rs['type'], 
+                        $info_title => '#')) ?>
                     <div class="single_entry single2_entry">
                         <div class="entry fewcomment">
                             <div class="title_container">

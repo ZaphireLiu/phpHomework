@@ -12,7 +12,7 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>主页</title>
+    <title>畜牧信息平台</title>
     <?php load_cssFile() ?>
     <script type="text/javascript">
         function IFocuse(th, o) {

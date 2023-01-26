@@ -48,7 +48,7 @@ if ($_FILES['img']['error'] != 4)
 {   // 上传
     if (!$_FILES['img']['error'])
     {   // 没错误
-        $suffix = @array_pop(explode('.', $_FILES['avatar']['name']));
+        $suffix = @array_pop(explode('.', $_FILES['img']['name']));
         $sufArr = array("bmp", "gif", "jpeg", "jpg", "png", "wbmp", "webp");
         if (!in_array($suffix, $sufArr))
             // 文件格式错误
@@ -67,6 +67,9 @@ if ($_FILES['img']['error'] != 4)
 else
     // 没有上传
     $retVal = 0;
+
+// 处理完毕且没有错误，返回个人空间
+jumpToURL('space.php');
 ?>
 
 <head>
