@@ -7,6 +7,16 @@
     $formTarget = 'signup_proc.php';
     if (isset($_GET['from']))
         $formTarget = $formTarget."?from={$_GET['from']}";
+    if (isset($_GET['retVal']))
+        $errMsg = array(
+            1  => '用户名已被使用！',
+            2  => '手机号已被使用！',
+            3  => '邮箱已被使用！',
+            12 => '用户名重复！',
+            13 => '用户名重复！',
+            4  => '两次输入密码不匹配！',
+            5  => '无效用户名'
+        )[$_GET['retVal']];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -84,12 +94,12 @@
                     <span class="titleLine"></span>
                 </div>
                 <p class="errMsg">
-                    &nbsp;<?=$errMsg?>&nbsp;</p><!-- 加俩空格占位就不用display和visibility了 -->
+                    &nbsp;<?= @$errMsg ?>&nbsp;</p><!-- 加俩空格占位就不用display和visibility了 -->
                 <form class="login100-form validate-form" style="width: 700px" action="<?= $formTarget ?>" method="post">
                     <!-- 输入 -->
                     <div class="wrap-input100 validate-input m-b-26" data-validate="用户名不能为空">
                         <span class="label-input100" style="user-select:none;">用户名</span>
-                        <input class="input100" type="text" name="username" placeholder="请输入用户名">
+                        <input class="input100" type="text" name="name" placeholder="请输入用户名">
                         <span class="focus-input100"></span>
                     </div>
                     <div class="wrap-input100 validate-input m-b-18" data-validate="密码不能为空">

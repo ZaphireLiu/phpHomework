@@ -31,7 +31,18 @@ $admList = getRet_SQL(mysqli_query($link, $query));
     <script type="text/javascript">
         function confirmDel(id, title, isSelf)
         {
-            if (isSelf) {
+            /**
+             * 0128: 测试时出现之前没有的问题
+             * 无论传入何值（1/0/true/false/等等等等），if (isSelf)永远判定为true
+             * 导致无论删谁一定都是删掉自己
+             * Update: 问题貌似不是传值，而是无论咋样都使用之前的页面
+             * 更改confirm()的内容没有变化，新增alert()函数也没反应
+             * 但是php里的内容修改会正常更新
+             * Update: 在load_resource.php里面找到问题了
+             * 里面有个同名的函数，不知道为啥之前一直使用的是页面里的函数
+             * 今天突然换成了那边的函数
+             */
+            if (isSelf == true) {
                 if (confirm("是否确定删除自己的账号？数据无法恢复！删除后将退出登录") == true) {
                     window.location.href = 'del.php?self=1';
                 }
@@ -41,11 +52,6 @@ $admList = getRet_SQL(mysqli_query($link, $query));
                     window.location.href = "del.php?id="+id;
                 }
             }
-        }
-    </script>
-    <script language="javascript">
-        function clickme() {
-            
         }
     </script>
     <?php load_navBar(); 
@@ -88,7 +94,7 @@ $admList = getRet_SQL(mysqli_query($link, $query));
                                             <tbody>
                                                 <?php
                                                 foreach ($admList as $adm) :
-                                                    $self = ID_ADM == $adm['id'] ? 1 : 0;
+                                                    $self = (ID_ADM == $adm['id'] ? 'true' : 'false');
                                                 ?>
                                                 <tr>
                                                     <td align="center"><?= $adm['id'] ?></td>

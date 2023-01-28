@@ -111,9 +111,7 @@ function preLoad($locLayer, $setLoginStat = false)
         foreach ($extCookieList as $v)
             setcookie($v, $_COOKIE[$v], time() + 30 * 60, '/');
     }
-    // 后台使用Session处理，前端网站考虑到自动下线等操作换成Cookie
-
-
+    // 后台使用Session处理，前端网站考虑到超时下线等操作换成Cookie
 }
 
 function siteMap()

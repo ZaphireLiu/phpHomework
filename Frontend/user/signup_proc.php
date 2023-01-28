@@ -79,9 +79,9 @@ preLoad(1, true);
          */
         function isUsed($link, $table, $name, $val)
         {
-            $query = "SELECT * FROM {$table} WHERE `{$name}`={$val}";
+            $query = "SELECT * FROM {$table} WHERE `{$name}`='{$val}'";
             $result = mysqli_query($link, $query);
-            if (!$result)
+            if ($result -> num_rows == 0)
                 return false;
             else
                 return true;
@@ -92,18 +92,27 @@ preLoad(1, true);
             $from = '';
         $link = link_SQL();
         $checkUsed = array(
-            'username'  => 1, 
-            'phone'     => 2, 
-            'email'     => 3 );
+            'name'  => 1, 
+            'phone' => 2, 
+            'email' => 3 );
         foreach ($checkUsed as $k => $v)
         {
-            if (!isset($_POST['$k']))
+            if (!isset($_POST[$k]))
                 continue;
-            if (isUsed($link, 'user_account', $k, $_POST['$k']))
+            if (isUsed($link, 'user_account', $k, $_POST[$k]))
             {   // 某一项已被占用
                 jumpToURL('signup.php', array('retVal' => $v, 'from' => $from));
             }
         }
+        foreach ($checkUsed as $k => $v)
+        {
+            if (isUsed($link, 'user_account', $k, $_POST['name']))
+            {   // 某一项已被占用
+                jumpToURL('signup.php', array('retVal' => (10+$v), 'from' => $from));
+            }
+        }
+        if ($_POST['name'] == '已注销账号')
+            jumpToURL('signup.php', array('retVal' => 5, 'from' => $from));
         if ($_POST['password'] != $_POST['passwordValid']) 
             // 两次输入密码不匹配
             jumpToURL('signup.php', array('retVal' => 4, 'from' => $from));

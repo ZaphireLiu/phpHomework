@@ -74,8 +74,8 @@ if (!$rs)
                     ?>
                     <div class="xh_post_h_3 ofh">
                         <div class="xh">
-                            <a target="_blank" href="article.php?id=<?= $i ?>" title="<?= $rs[$i]['title'] ?>">
-                                <img src="<?= getNewsImg(LOC, $i) ?>" alt="<?= $rs[$i]['title'] ?>" height="240" width="400"></a>
+                            <a target="_blank" href="article.php?id=<?= $newsID ?>" title="<?= $rs[$i]['title'] ?>">
+                                <img src="<?= getNewsImg(LOC, $newsID) ?>" alt="<?= $rs[$i]['title'] ?>" height="240" width="400"></a>
                         </div>
                         <div class="r ofh">
                             <h2 class="xh_post_h_3_title ofh" style="height:60px;">
@@ -85,11 +85,9 @@ if (!$rs)
                             <div class="xh_post_h_3_entry ofh" style="color:#555;height:80px; overflow:hidden;">
                                 <?= mb_readFile(LOC.'../Data/news/'.$newsID.'.txt', DETAIL_SIZE) ?>
                             </div>
-                            <!-- <div class="b">
-                                <a href="/lookbike/otherbike/278.html" class="xh_readmore" rel="nofollow">read
-                                    more</a> <span title="0人赞" class="xh_love"><span class="textcontainer"><span>0</span></span> </span> <span title="114人浏览" class="xh_views">
-                                    114</span>
-                            </div> -->
+                            <div class="b">
+                                    <span class="bartext"></span></span> <span title="<?= $rs[$i]['view_time'] ?>人浏览" class="xh_views"><?= $rs[$i]['view_time'] ?></span>
+                                </div>
                         </div>
                     </div>
                     <?php endfor; ?>

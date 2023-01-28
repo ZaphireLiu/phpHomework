@@ -190,7 +190,7 @@ function load_sideBar($displaySearch = true)
 {
 ?>
     <script type="text/javascript">
-        function confirmDel() {
+        function confirmDel_Self() {
             if (confirm("是否确定删除自己的账号？数据无法恢复！删除后将退出登录") == true) {
                 window.location.href = '<?= LOC ?>admin/del.php?self=1';
             }
@@ -338,7 +338,7 @@ function load_sideBar($displaySearch = true)
                         </a>
                     </li>
                     <li>
-                        <a href="javascript:confirmDel()">
+                        <a href="javascript:confirmDel_Self()">
                             <span class="menu-text">
                                 注销账号 </span>
                             <!-- <i class="menu-expand"></i> -->

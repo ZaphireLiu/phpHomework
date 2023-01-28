@@ -14,6 +14,12 @@ if (isset($_GET['kw'])) {
     $rs_info = query_SQL($link, $query);
     $query   = "SELECT * FROM `user_account` WHERE `name` LIKE '%{$_GET['kw']}%' ORDER BY `create_time` DESC";
     $rs_user = query_SQL($link, $query);
+    if (PER_ADM)
+    {   // 具有超管权限，搜索管理员列表
+        $query = "SELECT * FROM `admin_account` WHERE `name` LIKE '%{$_GET['kw']}%' ORDER BY `create_time` DESC";
+        $rs_admin = query_SQL($link, $query);
+    }
+    else $rs_admin = null;
     // 合并、排序结果
     $rs     = array();
     if ($rs_news)

@@ -43,11 +43,7 @@
             }
             if (!isset($_POST['loginBtn'])) // 未按下登录按钮，非正常情况
                 ret2login(0, '登录操作错误，返回登录页面');
-            $link = @mysqli_connect('localhost', 'root', '', 'mgt_sys') or die(<<<str
-                <div class="loginbox-title">
-                    无法连接数据库
-                </div>
-            str);
+            $link = link_SQL();
             @$name = $_POST['username'];
             @$pwd = $_POST['password'];
             $pwdValid = md5($name.'salt'.$pwd);

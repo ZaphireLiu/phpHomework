@@ -26,7 +26,7 @@ $userList = getRet_SQL(mysqli_query($link, $query));
     <script type="text/javascript">
         function confirmDel(id, name)
         {
-            if (confirm("js测试 - 是否确定删除ID为" + id + "，用户名为" + name + "的账号？账号数据无法恢复！"))
+            if (confirm("是否确定删除ID为" + id + "，用户名为" + name + "的账号？账号数据无法恢复！"))
             {
                 window.location.href = "del.php?id="+id;
             }

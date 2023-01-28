@@ -5,7 +5,7 @@
  */
 function link_SQL()
 {
-    $link = @mysqli_connect('localhost', 'root', '', 'mgt_sys');
+    $link = @mysqli_connect('localhost', 'root', '', 'livestockInfo_db');
     if (!$link)
         echo <<<str
             <script type="text/javascript">alert("无法连接数据库！");</script>
@@ -60,9 +60,6 @@ function query_SQL($link, $query)
  */
 function jumpToURL($url, $getArr = array(), $waitTime = 0)
 {
-    // if (isset($_COOKIE['DEBUG_MODE']))
-    //     $time_m = 180 * 1000;
-    // else
     $time_m = (int)($waitTime*1000);
     if (count($getArr) > 0)
     {

@@ -61,6 +61,8 @@
     if ($result -> num_rows > 0)
     {
         $usrAcc = validAcc($result, $name);
+        if ($usrAcc['cancelled'])
+            jumpToURL('login.php', array('retVal' => 4, 'from' => $from));
         if ($pwdValid == $usrAcc['pwd_md5'])
         {   // 密码验证通过
             setcookie('userID',     $usrAcc['id'],      $expTime, '/');

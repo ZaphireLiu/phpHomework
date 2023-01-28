@@ -48,7 +48,7 @@ $isSelf = $id == $_COOKIE['userID'];
                         <div class="user-name"><?= $user['name'] ?></div>
                     </div>
                     <?php if ($isSelf) : ?>
-                        <a class="edit-info" href="edit_info.php">注销账号</a>
+                        <!-- <a class="edit-info" href="edit_info.php">注销账号</a> -->
                         <span class="edit-info" style="user-select: none;">&nbsp;&nbsp;&nbsp;</span>
                         <a class="edit-info" href="edit_info.php">编辑个人信息</a>
                     <?php endif; ?>
@@ -58,7 +58,7 @@ $isSelf = $id == $_COOKIE['userID'];
                     <?php
                     $query = "SELECT * FROM `sup_and_dem` WHERE `user_id`='{$id}'";
                     // echo $query;
-                    $rs = getRet_SQL(mysqli_query($link, $query));
+                    $rs = query_SQL($link, $query);
                     // var_dump($rs);
                     foreach ($rs as $v) :
                     ?>

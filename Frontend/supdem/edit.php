@@ -96,6 +96,17 @@ if (isset($_GET['retVal']))
 
 <body class="single2">
 
+    <script type="text/javascript">
+        function confirmDel(id)
+        {
+            if (confirm("是否确定删除此条供需信息？数据无法恢复！") == true) {
+                window.location.href = "delete.php?id="+id;
+                setTimeout("javascript:location.href='delete.php?id="+id+"'", 0);
+                // 不知道为啥这里的window.location.href就是不触发，就放俩跳转在这保证能跳转
+            }
+        }
+    </script>
+
     <?php load_header()
     // 页首栏 
     ?>
@@ -145,8 +156,11 @@ if (isset($_GET['retVal']))
                 <label>
                     <span style="user-select: none;">&nbsp;</span>
                 </label>
-                <input id="submitBtn" type="submit" class="button" name="btn" value="发  布" />
-                
+                <input id="submitBtn" type="submit" class="button" name="btn" value="更新供需信息" />
+                <span style="padding-left: 50px;"></span>
+                <button id="delBtn" class="button" onClick="javascript:confirmDel(<?= $_GET['id'] ?>)">
+                    删除供需信息
+                </button>
                 <?php endif; ?>
 
             </form>

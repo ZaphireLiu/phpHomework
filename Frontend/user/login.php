@@ -2,9 +2,13 @@
 <?php
     require_once '../load_resources.php';
     preLoad(1, true);
-    if (isset($_GET['retVal']) || @$_GET['retVal'])
-        // 其实能拿到具体为啥错误，但是为了账号安全考虑就只有一条提示信息
-        $errMsg = '用户名或密码错误！';
+    if (isset($_GET['retVal']))
+    {   // 为了账号安全考虑提示信息模糊处理
+        if ($_GET['retVal'] == 4)
+            $errMsg = '账号已注销！';
+        else
+            $errMsg = '用户名或密码错误！';
+    }
     else
         $errMsg = '';
     if (isset($_GET['from']))

@@ -64,7 +64,7 @@ $rs = getRet_SQL(mysqli_query($link, $query));
                     ?>
                     <div class="xh_post_h_3 ofh">
                         <div class="xh">
-                            <a target="_blank" href="detail.php?id=<?= $i ?>" title="<?= $rs[$i]['name'] ?>">
+                            <a target="_blank" href="detail.php?id=<?= $infoID ?>" title="<?= $rs[$i]['name'] ?>">
                                 <img src="<?= getInfoImg($link, LOC, $infoID) ?>" alt="<?= $rs[$i]['name'] ?>" height="240" width="400"></a>
                         </div>
                         <div class="r ofh">
