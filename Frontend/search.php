@@ -13,28 +13,34 @@ if (isset($_GET['kw']))
 {
     // 查询两个板块的结果
     $query   = "SELECT * FROM `news_data` WHERE `title` LIKE '%{$_GET['kw']}%' ORDER BY `publish_time` DESC";
-    $rs_news = getRet_SQL(mysqli_query($link, $query));
+    $rs_news = query_SQL($link, $query);
     $query   = "SELECT * FROM `sup_and_dem` WHERE `name` LIKE '%{$_GET['kw']}%' ORDER BY `publish_time` DESC";
-    $rs_info = getRet_SQL(mysqli_query($link, $query));
+    $rs_info = query_SQL($link, $query);
     // 合并结果
-    $resNum = count($rs_info) + count($rs_news);
+    $resNum = 0;
     $title  = '搜索结果 - '.$_GET['kw'];
     $url    = 'search.php?kw='.$_GET['kw'].'&page='.$page;
     $rs     = array();
     if ($rs_news)
+    {
+        $resNum += count($rs_news);
         foreach ($rs_news as $v)
         {
             $v['search_type'] = 'news';
             $v['search_time'] = $v['publish_time'];
             $rs[]             = $v;
         }
+    }
     if ($rs_info)
+    {
+        $resNum += count($rs_info);
         foreach ($rs_info as $v)
         {
             $v['search_type'] = 'info';
             $v['search_time'] = $v['publish_time'];
             $rs[]             = $v;
         }
+    }
     sortSearchRes($rs);
 }
 else 
@@ -52,6 +58,10 @@ else
     <title><?= $title ?></title>
     <?php load_cssFile('list') ?>
     <style>
+        body {
+            position: absolute;
+            min-height: 100%;
+        }
         .search {
             margin-left: 170px !important;
             border-right: none !important;
@@ -92,11 +102,12 @@ else
                     <?php if (isset($rs[$i]['title'])): ?>
                     <div class="xh_post_h_3 ofh">
                         <div class="xh">
-                            <a target="_blank" href="article.php?id=<?= $i ?>" title="<?= $rs[$i]['title'] ?>">
+                            <a target="_blank" href="article.php?id=<?= $itemID ?>" title="<?= $rs[$i]['title'] ?>">
                                 <img src="<?= getNewsImg(LOC, $itemID) ?>" alt="<?= $rs[$i]['title'] ?>" height="240" width="400"></a>
                         </div>
                         <div class="r ofh">
                             <h2 class="xh_post_h_3_title ofh" style="height:60px;">
+                                <span class='news'>新闻</span>
                                 <a target="_blank" href="article.php?id=<?= $itemID ?>" title="<?= $rs[$i]['title'] ?>"><?= cutStr($rs[$i]['title'], 20) ?></a>
                             </h2>
                             <span class="time"><?= $rs[$i]['publish_time'] ?></span>
@@ -112,12 +123,12 @@ else
                     <?php else: ?>
                     <div class="xh_post_h_3 ofh">
                         <div class="xh">
-                            <a target="_blank" href="detail.php?id=<?= $i ?>" title="<?= $rs[$i]['name'] ?>">
+                            <a target="_blank" href="<?= LOC ?>supdem/detail.php?id=<?= $itemID ?>" title="<?= $rs[$i]['name'] ?>">
                                 <img src="<?= getInfoImg($link, LOC, $itemID) ?>" alt="<?= $rs[$i]['name'] ?>" height="240" width="400"></a>
                         </div>
                         <div class="r ofh">
                             <h2 class="xh_post_h_3_title ofh" style="height:60px;">
-                                <a target="_blank" href="detail.php?id=<?= $itemID ?>" title="<?= $rs[$i]['name'] ?>">
+                                <a target="_blank" href="<?= LOC ?>supdem/detail.php?id=<?= $itemID ?>" title="<?= $rs[$i]['name'] ?>">
                                     <?= !$rs[$i]['type'] ? "<span class='sup'>供应</span>" : "<span class='dem'>需求</span>" ?>
                                     <?= cutStr($rs[$i]['name'], 20) ?>
                                 </a>

@@ -21,8 +21,14 @@ $admList = getRet_SQL(mysqli_query($link, $query));
     ?>
     <style>
         .noClickBtn {
-            background-color: #47617c !important;
-            pointer-events: none;
+            background-color: #364d62 !important;
+            /* pointer-events: none; */
+        }
+        .noClickBtn:hover {
+            background-color: #486474 !important;
+        }
+        .noClickBtn:focus {
+            background-color: #364d62 !important;
         }
     </style>
 </head>
@@ -52,6 +58,10 @@ $admList = getRet_SQL(mysqli_query($link, $query));
                     window.location.href = "del.php?id="+id;
                 }
             }
+        }
+        function noClick()
+        {
+            alert("超级管理员的账号只能由自己删除");
         }
     </script>
     <?php load_navBar(); 
@@ -109,12 +119,18 @@ $admList = getRet_SQL(mysqli_query($link, $query));
                                                         <button type="button" tooltip="编辑" class="btn btn-sm btn-azure btn-addon" 
                                                         onClick="javascript:window.location.href = 'edit.php?id=<?= $adm['id'] ?>'">
                                                             <i class="fa fa-wrench"></i>编辑
-                                                        </button>                                                            
-                                                        <button type="button" tooltip="删除" class="btn btn-sm btn-azure btn-addon 
-                                                        <?= $adm['permission'] && (ID_ADM != $adm['id']) ? "noClickBtn" : '' ?>" 
-                                                        onClick="javascript:confirmDel(<?= $adm['id'] ?>, '<?= $adm['name'] ?>', <?= $self ?>)">
+                                                        </button>
+                                                        <?php if ($adm['permission'] && (ID_ADM != $adm['id'])): ?>                                                  
+                                                        <button type="button" tooltip="删除" class="btn btn-sm btn-azure btn-addon noClickBtn" 
+                                                            onClick="javascript:noClick()">
                                                             <i class="fa fa-trash-o"></i>删除
                                                         </button>
+                                                        <?php else: ?>
+                                                        <button type="button" tooltip="删除" class="btn btn-sm btn-azure btn-addon" 
+                                                            onClick="javascript:confirmDel(<?= $adm['id'] ?>, '<?= $adm['name'] ?>', <?= $self ?>)">
+                                                            <i class="fa fa-trash-o"></i>删除
+                                                        </button>
+                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <?php endforeach; ?>

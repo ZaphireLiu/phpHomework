@@ -71,6 +71,11 @@
             padding-top: 5px;
             padding-bottom: 5px;
         }
+        .login100-form-btn {
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 1px 1px 1px #192D55;
+        }
     </style>
 </head>
 
@@ -133,8 +138,9 @@
         <!-- /页面内容 -->
     </div>
 
-    <?php load_footer(1)
-    // 页尾栏 
+    <?php
+    // load_footer(1)
+    // 页尾栏，登录和注册页效果不好就不加了
     ?>
 
     <script src="login-asset/js/jquery-3.2.1.min.js"></script>

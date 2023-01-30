@@ -19,10 +19,13 @@ if (isset($_GET['kw'])) {
         $query = "SELECT * FROM `admin_account` WHERE `name` LIKE '%{$_GET['kw']}%' ORDER BY `create_time` DESC";
         $rs_admin = query_SQL($link, $query);
     }
-    else $rs_admin = null;
+    else $rs_admin = false;
     // 合并、排序结果
-    $rs     = array();
+    $rs        = array();
+    $searchNum = 0;
     if ($rs_news)
+    {
+        $searchNum += count($rs_news);
         foreach ($rs_news as $v)
         {
             $v['search_type'] = '新闻';
@@ -30,7 +33,10 @@ if (isset($_GET['kw'])) {
             $v['url']         = './content/edit_news.php?id='.$v['id'];
             $rs[]             = $v;
         }
+    }
     if ($rs_info)
+    {
+        $searchNum += count($rs_news);
         foreach ($rs_info as $v)
         {
             $v['search_type'] = '供需';
@@ -38,7 +44,10 @@ if (isset($_GET['kw'])) {
             $v['url']         = './content/detail_info.php?id='.$v['id'];
             $rs[]             = $v;
         }
+    }
     if ($rs_user)
+    {
+        $searchNum += count($rs_news);
         foreach ($rs_user as $v)
         {
             $v['search_type'] = '用户';
@@ -46,6 +55,18 @@ if (isset($_GET['kw'])) {
             $v['url']         = './user/detail.php?id='.$v['id'];
             $rs[]             = $v;
         }
+    }
+    if ($rs_admin)
+    {
+        $searchNum += count($rs_admin);
+        foreach ($rs_admin as $v)
+        {
+            $v['search_type'] = '管理';
+            $v['search_time'] = $v['create_time'];
+            $v['url']         = './admin/detail.php?id='.$v['id'];
+            $rs[]             = $v;
+        }
+    }
     sortSearchRes($rs);    
 } else {
     $title = '搜索页';
@@ -122,6 +143,7 @@ mysqli_close($link);
                                         <?php if ($mode): ?>
                                         <!-- 搜索结果 -->
                                         <div class='searchRes'>
+                                            <p>共找到<?= $searchNum ?>条结果</p>
                                             <?php foreach ($rs as $v): ?>
                                             <div class="item">
                                                 <a style="color: #003371" href="<?= $v['url'] ?>" target="_blank">

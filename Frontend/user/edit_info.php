@@ -35,6 +35,12 @@ $msg  = isset($_GET['retVal']) ? array(
         .single_entry {
             margin-top: 30px;
         }
+        .button {
+            background-color: #244ba1 !important;
+        }
+        .button:hover {
+            background-color: #2B5ECC !important;
+        }
     </style>
 </head>
 

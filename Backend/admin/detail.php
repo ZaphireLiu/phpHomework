@@ -27,7 +27,7 @@ $rs = getRet_SQL(mysqli_query($link, $query));
 
 <head>
     <meta charset="utf-8">
-    <title>管理员账号 - 详情</title>
+    <title><?= $rs['name'] ?> - 详情</title>
     <?php load_cssFile()
     // 加载css文件 
     ?>

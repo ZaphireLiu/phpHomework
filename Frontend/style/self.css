@@ -32,6 +32,11 @@
     font-weight: bold;
 }
 
+.news {
+    color: #fa6400;
+    font-weight: bold;
+}
+
 .user-space {
     min-height: 800px;
 }

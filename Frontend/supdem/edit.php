@@ -27,8 +27,8 @@ if (isset($_POST['btn'])) {
     // 是否为空的检验在form里
     $query = <<<EOF
     UPDATE `sup_and_dem` SET
-    `name`={$_POST['name']},
-    `type`={$_POST['type']},
+    `name`='{$_POST['name']}',
+    `type`='{$_POST['type']}',
     `publish_time`=NOW()
     WHERE `id`={$id}
     EOF;
@@ -87,9 +87,14 @@ if (isset($_GET['retVal']))
         #wrapper {
             background-color: #ffffff;
         }
-
         .single_entry {
             margin-top: 30px;
+        }
+        .button {
+            background-color: #244ba1 !important;
+        }
+        .button:hover {
+            background-color: #2B5ECC !important;
         }
     </style>
 </head>

@@ -29,7 +29,6 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
         #wrapper {
             background-color: #ffffff;
         }
-
         .single_entry {
             margin-top: 30px;
         }
@@ -92,12 +91,12 @@ const SIDEBAR_SIZE = 6;     // 侧边栏显示数量
                         ?>
                             <li style="border-bottom:dashed 1px #ccc;height:70px; margin-bottom:15px;">
                                 <div style="float:left;width:85px;height:55px; overflow:hidden;">
-                                    <a href="detail.php?id=<?= $v['id'] ?>" target="_blank">
+                                    <a href="article.php?id=<?= $v['id'] ?>" target="_blank">
                                         <img src="<?= getNewsImg(LOC, $v['id']) ?>" width="83 !important" height="83 !important" title="<?= $v['title'] ?>" style="padding-left:4px" />
                                     </a>
                                 </div>
                                 <div style="float:right;width:175px;height:52px; overflow:hidden;">
-                                    <a href="detail.php?id=<?= $v['id'] ?>" target="_blank" title="<?= $v['title'] ?>">
+                                    <a href="article.php?id=<?= $v['id'] ?>" target="_blank" title="<?= $v['title'] ?>">
                                         <?= cutStr($v['title'], 20) ?>
                                     </a>
                                 </div>

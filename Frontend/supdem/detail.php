@@ -15,7 +15,7 @@ require_once '../load_resources.php';
 preLoad(1);
 if (!isset($_GET['id']))
     // die();
-    jumpToURL('detail.php?id=0');
+    jumpToURL('list.php');
 $link = link_SQL();
 $query = "SELECT * FROM `sup_and_dem` WHERE `id`={$_GET['id']}";
 $rs = getRet_SQL(mysqli_query($link, $query));
@@ -24,6 +24,8 @@ if (!$rs)
 $info_title   = $rs['name'];
 $info_time    = $rs['publish_time'];
 $info_contact = $rs['contact'];
+$query = "SELECT `name` FROM `user_account` WHERE `id`={$rs['user_id']}";
+$userName = getRet_SQL(mysqli_query($link, $query))['name'];
 ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -91,7 +93,14 @@ $info_contact = $rs['contact'];
                                 ?>
                                 <!-- <?=var_dump($rs);?> -->
                                 <p class="pagepage"></p>
-
+                                <div id="BottomNavOver" style="height: 80px;">
+                                    <div style="float: left; font-size: 12px;">
+                                        <a href="<?= LOC ?>user/space.php?id=<?= $rs['user_id'] ?>" style="color: #666" target="_blank">
+                                            发布用户：<?= $userName ?>
+                                        </a>
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
                             </div>
                             <div class="clear">
                             </div>

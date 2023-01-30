@@ -82,7 +82,8 @@ function preLoad($locLayer, $setLoginStat = false)
         'login.php',        'login_proc.php',
         'signup.php',       'signup_proc.php',
         'reset_pwd.php',    'reset_pwd_proc.php',
-        'forget_pwd.php',   'forget_proc.php'
+        'forget_pwd.php',   'forget_proc.php',
+        'search.php'
     );
     foreach ($selfNameCheck as $v) {
         if ($selfName == $v)
@@ -174,10 +175,23 @@ function load_cssFile($type='') // , $des = '', $key_w = ''
     }
     ?>
     <style>
+        /* 终于搞完把页脚固定在最低端了 */
+        body {
+            position: absolute;
+            min-height: 100%;
+        }
         .userAvatar {
             width: 30px;
             height: 30px;
             border-radius: 5px;
+        }
+        .footer_div {
+            z-index: -1;
+            align-self: center;
+            position: absolute;
+            bottom: 0;
+            width:100%;
+            height: 125px;
         }
     </style>
 <?php }
@@ -348,12 +362,12 @@ function load_siteMap()
 /**
  * 页尾栏
  */
-function load_footer($btm = 0)
+function load_footer()
 {
 
 ?>
-    <div style="align-self: center">
-        <div id="footer_wrap" <?php if ($btm) : ?> style="height: calc()" <?php endif ?>>
+    <div class="footer_div">
+        <div id="footer_wrap" style="margin-top: 120px; height: 60px; bottom: 0;">
             <!-- style="position: fixed; bottom:0; width:100%" -->
             <div id="footer">
                 <div class="footer_navi">

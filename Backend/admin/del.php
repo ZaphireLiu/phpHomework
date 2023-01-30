@@ -62,9 +62,9 @@ else
 // 目前的解决方案是php和js各删一遍
 setcookie('confirmDelAdm', 0, time()-1);
 echo <<<EOF
-<script type="text/javascript">
-    document.cookie="confirmDelAdm=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-</script>
+    <script type="text/javascript">
+        document.cookie="confirmDelAdm=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    </script>
 EOF;
 ?>
 

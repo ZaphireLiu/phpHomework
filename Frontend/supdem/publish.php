@@ -40,6 +40,7 @@ if (isset($_POST['btn'])) {
             jumpToURL('#', array('retVal' => 60 + $_FILES['img']['error']));
     }
     $msg = '发布成功！';
+    popWarn('发布成功！');
     unset($_POST['btn']);
     jumpToURL("detail.php?id={$id}", array(), 1.5);
 }
